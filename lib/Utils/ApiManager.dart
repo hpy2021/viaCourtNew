@@ -25,7 +25,7 @@ class ApiManager {
     print(uri);
     http.Response response = await http.get(uri);
     print("this is the resposne ${response.body}");
-    updateCookie(response);
+    // updateCookie(response);
     print(response.headers);
     // if (response.statusCode == 401) {
     //
@@ -95,27 +95,35 @@ class ApiManager {
 
   postCallWithHeader(String url, Map request, BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(url);
-
+    print(prefs.getString(AppStrings.TOKEN_KEY));
+    String user = prefs.getString(AppStrings.TOKEN_KEY);
+    String token;
     var headers;
     if (prefs.getString(AppStrings.TOKEN_KEY) == null) {
       headers = {"Accept": "application/json"};
     } else {
-      String user = prefs.getString(AppStrings.TOKEN_KEY);
+
       print(user);
       //
       print("request " + request.toString());
+      print("token " + user.split("|")[1]);
+      token = user.split("|")[1];
       headers = {
         "Accept": "application/json",
-        "Authorization": "Bearer $user",
+        "Authorization": "Bearer ${user.split("|")[1]}",
       };
     }
     var uri = Uri.parse(url);
     uri = uri.replace(queryParameters: request);
     print(uri);
 
+    print(token);
+
     http.Response response =
-        await http.post(uri, body: request, headers: headers);
+        await http.post(uri,body: request, headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token",
+        });
     print(response.body);
     if (response.statusCode == 401) {
     } else {

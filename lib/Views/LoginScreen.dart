@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
       if (registerResponse.status == 200) {
+        print("token : ${registerResponse.token}");
 
           sharedPreferences = await SharedPreferences.getInstance();
           await sharedPreferences.setString(
@@ -71,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             isLoading = false;
           });
-        AppConstants().showToast(msg: registerResponse.errors.email[1]);
+        AppConstants().showToast(msg: registerResponse.errors.email[0]);
 
       }
     }

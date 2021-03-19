@@ -21,7 +21,10 @@ class HomeScreen extends StatefulWidget {
   DateTime selectedDate;
   String size;
 
-  HomeScreen({@required this.pitchId, @required this.selectedDate,@required this.size});
+  HomeScreen(
+      {@required this.pitchId,
+      @required this.selectedDate,
+      @required this.size});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -45,54 +48,50 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getCourt() async {
     if (await ApiManager.checkInternet()) {
-    if (mounted)
-      setState(() {
-        isLoading = true;
-      });
+      if (mounted)
+        setState(() {
+          isLoading = true;
+        });
 
-    Map<String, dynamic> request = new HashMap();
-    request["size"] = widget.size.toString();
+      Map<String, dynamic> request = new HashMap();
+      request["size"] = widget.size.toString();
 
-    CourtListResponse response = CourtListResponse.fromJson(
-      await ApiManager().postCall(AppStrings.COURT_URL, request, context),
-    );
-    // CourtListResponse response = CourtListResponse.fromJson(await ApiManager()
-    //     .postCallWithHeader(AppStrings.PITCHES_URL+"/4",request,context));
+      CourtListResponse response = CourtListResponse.fromJson(
+        await ApiManager()
+            .postCallWithHeader(AppStrings.COURT_URL, request, context),
+      );
+      // CourtListResponse response = CourtListResponse.fromJson(await ApiManager()
+      //     .postCallWithHeader(AppStrings.PITCHES_URL+"/4",request,context));
 
-    if (response.status == 200) {
-      isLoading = false;
-
-      courtData = response.result;
-      setState(() {});
-    }
-
-    if (mounted)
-      setState(() {
+      if (response.status == 200) {
         isLoading = false;
-      });
-  }
 
-    else {
+        courtData = response.result;
+        setState(() {});
+      }
+
       if (mounted)
         setState(() {
           isLoading = false;
         });
-      AppConstants().showToast(msg:"Internet is not available");
-    }}
+    } else {
+      if (mounted)
+        setState(() {
+          isLoading = false;
+        });
+      AppConstants().showToast(msg: "Internet is not available");
+    }
+  }
+
   Future<Null> _handleRefresh() async {
     await new Future.delayed(new Duration(seconds: 3));
     getCourt();
-
-    setState(() {
-
-    });
-
+    setState(() {});
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-
     return RefreshIndicator(
       onRefresh: _handleRefresh,
       key: refreshKey,
@@ -176,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 11,
                   width: 11,
                   decoration:
-                  BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
                 ),
               )
             ],
@@ -200,13 +199,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: courtData != null
             ? ListView.builder(
-          padding: EdgeInsets.only(top: 15),
-            physics: BouncingScrollPhysics(),
-            itemCount: courtData.length,
-            itemBuilder: (BuildContext context, int index) {
-              return _courtListItemView(courtData[index]);
-            })
-            : Container(child: Center(child: Text("No court available\n please select another pitch",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,),),),),
+                padding: EdgeInsets.only(top: 15),
+                physics: BouncingScrollPhysics(),
+                itemCount: courtData.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _courtListItemView(courtData[index]);
+                },
+              )
+            : Container(
+                child: Center(
+                  child: Text(
+                    "No court available\n please select another pitch",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }
@@ -251,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // height: 192,
                     // width: 379,
                     fit: BoxFit.contain,
-                    placeholder:AssetImage("assets/images/pitchImage.png") ,
+                    placeholder: AssetImage("assets/images/pitchImage.png"),
 
                     image: NetworkImage(
                       "${AppStrings.IMGBASE_URL + data.courtImage}",
@@ -321,9 +332,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(width: 9),
                     Expanded(
                         child: Text(
-                          "${data.address1 == null ? "Address" : data.address1}",
-                          style: AppTextStyles.textStyle14green,
-                        ))
+                      "${data.address1 == null ? "Address" : data.address1}",
+                      style: AppTextStyles.textStyle14green,
+                    ))
                   ],
                 ),
               ),
@@ -339,12 +350,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 17,
                     ),
                     SizedBox(width: 10.5),
-                    Text("${data.slotDurationStartTime} - ${data.slotDurationEndTime}", style: AppTextStyles.green13)
+                    Text(
+                        "${data.slotDurationStartTime} - ${data.slotDurationEndTime}",
+                        style: AppTextStyles.green13)
                   ],
                 ),
               ),
               SizedBox(height: 14),
-
               // _bottomButton(courtList.price)
             ],
           ),
@@ -374,4 +386,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

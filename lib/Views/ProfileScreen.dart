@@ -1,7 +1,10 @@
+import 'dart:collection';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_app/Views/ChangePassword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/Constants/AppColors.dart';
 import 'package:my_app/Constants/AppConstants.dart';
@@ -107,9 +110,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           });
         // AppConstants().showToast(msg: "${registerResponse.message}");
       }
-    }
-    else {
-      AppConstants().showToast(msg:"Internet is not available");
+    } else {
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
 
@@ -121,7 +123,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
       var request;
       CommonResponse registerResponse = CommonResponse.fromJson(
-        await ApiManager().postCallWithHeader(AppStrings.LOGOUT_URL,request,context),
+        await ApiManager()
+            .postCallWithHeader(AppStrings.LOGOUT_URL, request, context),
       );
 
       if (registerResponse.status == 204) {
@@ -129,9 +132,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           setState(() {
             isLoading = false;
           });
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.clear();
         // print(registerResponse.firstname);
         // user = registerResponse;
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            (route) => false);
         setState(() {});
         AppConstants().showToast(msg: "Logout");
       } else {
@@ -141,13 +149,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           });
         // AppConstants().showToast(msg: "${registerResponse.message}");
       }
-    }
-    else {
+    } else {
       if (mounted)
         setState(() {
           isLoading = false;
         });
-      AppConstants().showToast(msg:"Internet is not available");
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
 
@@ -199,14 +206,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         child: Row(
           children: [
-            Container(
-              height: 56,
-              width: 56,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/profile.jpg"))),
-            ),
+            // Container(
+            //   height: 56,
+            //   width: 56,
+            //   decoration: BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       image: DecorationImage(
+            //           image: AssetImage("assets/images/profile.jpg"))),
+            // ),
             SizedBox(width: 16),
             Text(
               text,
@@ -226,18 +233,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 37,
         ),
         _textIconWidget(
-            text: "My Profile",
-            url: "assets/images/profile.png",
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => EditProfile(
-                          user: user,
-                        )))),
+          text: "My Profile",
+          url: "assets/images/profile.png",
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditProfile(
+                user: user,
+              ),
+            ),
+          ),
+        ),
         SizedBox(
           height: 34,
         ),
-        _textIconWidget(text: "Change Password", url: "assets/images/lock.png"),
+        _textIconWidget(
+          text: "Change Password",
+          url: "assets/images/lock.png",
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChangePassword(),
+            ),
+          ),
+        ),
         SizedBox(
           height: 34,
         ),
@@ -263,18 +282,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 32,
         ),
         _textIconWidget(
-            text: "Logout",
-            url: "assets/images/signout.png",
-            onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.clear();
-              logoutApiCall();
+          text: "Logout",
+          url: "assets/images/signout.png",
+          onPressed: () async {  if (mounted)
+    setState(() {
+    isLoading = true;
+    });
+    Map<String,Object> request = new HashMap();
+    print("222");
+    CommonResponse registerResponse = CommonResponse.fromJson(
+    await ApiManager().postCallWithHeader(AppStrings.LOGOUT_URL,request,context),
+    );
+    print("221");
 
-              // Navigator.pushAndRemoveUntil(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => LoginScreen()),
-              //     (route) => false);
-            }),
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    print("221");
+
+    print(registerResponse.result);
+
+    if (mounted)
+    setState(() {
+    isLoading = false;
+    });
+    // print(registerResponse.firstname);
+    // user = registerResponse;
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+    AppConstants().showToast(msg: "Logout");
+
+            // logoutApiCall();
+
+            // Navigator.pushAndRemoveUntil(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => LoginScreen()),
+            //     (route) => false);
+          },
+        ),
       ],
     );
   }

@@ -97,20 +97,20 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ],
           ),
-          SizedBox(height: 26),
-          Container(
-            height: 97,
-            width: 97,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage("assets/images/profile.jpg"))),
-          ),
-          SizedBox(height: 9),
-          Text(
-            "${widget.user.firstname + " " + widget.user.lastname}",
-            style: AppTextStyles.textStyle25white,
-          ),
+          // SizedBox(height: 26),
+          // Container(
+          //   height: 97,
+          //   width: 97,
+          //   decoration: BoxDecoration(
+          //       shape: BoxShape.circle,
+          //       image: DecorationImage(
+          //           image: AssetImage("assets/images/profile.jpg"))),
+          // ),
+          // SizedBox(height: 9),
+          // Text(
+          //   "${widget.user.firstname + " " + widget.user.lastname}",
+          //   style: AppTextStyles.textStyle25white,
+          // ),
         ],
       ),
     );

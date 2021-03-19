@@ -39,11 +39,15 @@ dependencies:
   bot_toast: ^3.0.5
   flutter_spinkit: ^4.1.2
   shared_preferences: ^2.0.3
-  flutter_local_notifications: ^4.0.1
+  flutter_local_notifications: ^4.0.1+2
   easy_localization: ^3.0.0
   simple_animations: ^2.5.1
   connectivity: ^2.0.2
   firebase_messaging: ^7.0.3
+#  flutter_auth: ^0.0.1
+#  firebase_core: ^1.0.0
+#  firebase_core: ^0.5.0+1
+#  firebase_analytics: ^7.1.0
 
 dev_dependencies:
   flutter_test:

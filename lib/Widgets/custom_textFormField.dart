@@ -36,6 +36,8 @@ controller: controller,
           hintStyle: AppTextStyles.hintTextStyle,
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.border_color)),
 focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.border_color)),
+          errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+          focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
         ),
       ),
     );

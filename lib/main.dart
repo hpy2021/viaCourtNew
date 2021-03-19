@@ -7,26 +7,28 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Constants/AppColors.dart';
 import 'Views/SplashScreen.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
-  runApp( EasyLocalization(
-      supportedLocales: [Locale('en', 'US'), Locale('ar', 'DZ')],
-      path: 'assets/language',// <-- change patch to your
-      fallbackLocale: Locale('en', 'US'),
-      // startLocale: Locale('ar', 'DZ'),
-      child: MyApp()
-  ),
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en', 'US'), Locale('ar', 'DZ')],
+        path: 'assets/language', // <-- change patch to your
+        fallbackLocale: Locale('en', 'US'),
+        // startLocale: Locale('ar', 'DZ'),
+        child: MyApp()),
   );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MaterialColor customAppColor =  MaterialColor(0xff008840, AppColors().color );
+    MaterialColor customAppColor = MaterialColor(0xff008840, AppColors().color);
     return MaterialApp(
       builder: BotToastInit(),
       navigatorObservers: [BotToastNavigatorObserver()],
@@ -34,10 +36,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Roboto',
-        primarySwatch:customAppColor,
+        primarySwatch: customAppColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home:SplashScreen(),
+      home: SplashScreen(),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -48,5 +50,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

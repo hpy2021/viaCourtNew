@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "330948044701",
+    "project_id": "viacourt-40176",
+    "storage_bucket": "viacourt-40176.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330948044701:android:f0667a301b49f6cbbfb174",
+        "android_client_info": {
+          "package_name": "com.indapoint.viacourt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330948044701-f9cvribkolc7l8hfk292jikrmc2ign2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.indapoint.viacourt",
+            "certificate_hash": "7b657d54873b3ba2e14271c307e45105361fc287"
+          }
+        },
+        {
+          "client_id": "330948044701-j14klicubpqmbptdlf913feirk9a2f0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxm-Zy7AW1lnh3epbflU-y3HV8Rip7JzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330948044701-j14klicubpqmbptdlf913feirk9a2f0f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330948044701-2dj9pcv6ihnkap8vmc7rnqc658amnn0t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.indapoint.viacourt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

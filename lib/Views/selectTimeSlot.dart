@@ -27,10 +27,10 @@ class SelectTimeSlot extends StatefulWidget {
   // int pitchId;
   SelectTimeSlot(
       {@required this.pitchId,
-        this.courtName,
-        @required this.selectedDate,
-        this.price,
-        this.courtId});
+      this.courtName,
+      @required this.selectedDate,
+      this.price,
+      this.courtId});
 
   @override
   _SelectTimeSlotState createState() => _SelectTimeSlotState();
@@ -141,11 +141,11 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
       request["booking_slot_end_time"] = "$endTime";
       CommonResponse response = new CommonResponse.fromJson(await ApiManager()
           .postCallWithHeader(
-          AppStrings.AVAILABILITY_URL +
-              "/${widget.pitchId}" +
-              "/availability",
-          request,
-          context));
+              AppStrings.AVAILABILITY_URL +
+                  "/${widget.pitchId}" +
+                  "/availability",
+              request,
+              context));
       if (response != null) {
         print(response.result);
         if (mounted)
@@ -226,10 +226,11 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
               ],
             )));
   }
+
   navigateAndDisplaySelection(BuildContext context) async {
     // Navigator.push returns a Future that completes after calling
     // Navigator.pop on the Selection Screen.
-    final result = await  Navigator.push(
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => SelectDateScreen(
@@ -239,18 +240,19 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
           // size: courtList.size,
           isFromPitch: false,
           // price: courtList.price,
-        ),),);
+        ),
+      ),
+    );
     widget.selectedDate = result;
-    setState(() {
-
-    });
+    setState(() {});
     print(result);
   }
+
   roundedCornerTextView() {
     return InkWell(
-     onTap: () async{
-       navigateAndDisplaySelection(context);
-     },
+      onTap: () async {
+        navigateAndDisplaySelection(context);
+      },
       child: Container(
         margin: EdgeInsets.fromLTRB(20, 28, 20, 14),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
@@ -285,27 +287,27 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
   _slotsView() {
     return Padding(
       padding: EdgeInsets.only(left: 10),
-      child:  slotItemList == null
+      child: slotItemList == null
           ? Center(
-          child: Text(
-            "No slots available",
-            style: AppTextStyles.textStyle14grey,
-          ))
+              child: Text(
+              "No slots available",
+              style: AppTextStyles.textStyle14grey,
+            ))
           : Wrap(
-        children: List<Widget>.generate(slotItemList.length, (index) {
-          if (isForOnetime) {
-            slotItemList.forEach((element) {
-              if (element.isBooked) {
-                element.isBooked = false;
-              }
-              print(element.isBooked);
-              isForOnetime = false;
-            });
-          }
+              children: List<Widget>.generate(slotItemList.length, (index) {
+                if (isForOnetime) {
+                  slotItemList.forEach((element) {
+                    if (element.isBooked) {
+                      element.isBooked = false;
+                    }
+                    print(element.isBooked);
+                    isForOnetime = false;
+                  });
+                }
 
-          return _slotsListItemView(slotItemList[index]);
-        }).toList(),
-      ),
+                return _slotsListItemView2(slotItemList[index]);
+              }).toList(),
+            ),
     );
   }
 
@@ -350,7 +352,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
             } else if (result == null) {
               AppConstants().showToast(
                   msg:
-                  "The slot you are selecting has passed so try to select another slot.");
+                      "The slot you are selecting has passed so try to select another slot.");
             } else if (result == "not available") {
               AppConstants().showToast(msg: "This slot is not available.");
             }
@@ -375,9 +377,86 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
                 color: slotItem.isBooked
                     ? Colors.white
                     : AppColors.availableTextColor
-              // color: AppColors.availableTextColor
-              // : AppColors.notavailableTextColor,
-            ),
+                // color: AppColors.availableTextColor
+                // : AppColors.notavailableTextColor,
+                ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _slotsListItemView2(Timeslots slotItem) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 10, 9),
+      child: InkWell(
+        // radius: 2,
+
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(5),
+        // ),
+        // color: slotItem.isBooked
+        //     ? AppColors.appColor_color
+        //     : AppColors.availableBackgroundColor,
+        // // color:  AppColors.availableBackgroundColor,
+        // elevation: 0,
+        // highlightElevation: 0,
+        //
+        // padding: EdgeInsets.symmetric(horizontal: 19, vertical: 12),
+        // // onPressed: (){
+        // //
+        // // },
+        //
+        onTap: () async {
+          if (slotItem.isBooked == true) {
+            slotItem.isBooked = false;
+            dateTime = "";
+            endTime = "";
+            setState(() {});
+          } else {
+            isForOnetime = true;
+            var time = "${slotItem.from}";
+            dateTime = DateFormat("yyyy-MM-dd").format(widget.selectedDate);
+            dateTime = dateTime + " " + time + ":" + "00";
+            print(dateTime);
+            var endtime = "${slotItem.to}";
+            endTime = DateFormat("yyyy-MM-dd").format(widget.selectedDate);
+            endTime = endTime + " " + endtime + ":" + "00";
+            await availablityCheckApi(dateTime, endTime);
+            if (result == "available") {
+              slotItem.isBooked = true;
+              setState(() {});
+            } else if (result == null) {
+              AppConstants().showToast(
+                  msg:
+                      "The slot you are selecting has passed so try to select another slot.");
+            } else if (result == "not available") {
+              AppConstants().showToast(msg: "This slot is not available.");
+            }
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 19, vertical: 12),
+          // margin:
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: slotItem.isBooked
+                  ? AppColors.appColor_color
+                  : AppColors.availableBackgroundColor
+              // : AppColors.notavailableBackgroundColor
+              ),
+          child: Text(
+            "${slotItem.from}",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                // color:AppColors.availableTextColor
+                color: slotItem.isBooked
+                    ? Colors.white
+                    : AppColors.availableTextColor
+                // color: AppColors.availableTextColor
+                // : AppColors.notavailableTextColor,
+                ),
           ),
         ),
       ),
@@ -396,7 +475,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
             //   ),
             // );
             print(dateTime);
-            if (dateTime == null||dateTime == "") {
+            if (dateTime == null || dateTime == "") {
               AppConstants().showToast(msg: "Please select the slot");
             } else {
               // print(widget.selectedDate);
@@ -506,9 +585,11 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
         if (mounted) setState(() {});
       }
       if (mounted)
-        setState(() {
-          isLoading = false;
-        });
+        setState(
+          () {
+            isLoading = false;
+          },
+        );
     }
   }
 }
