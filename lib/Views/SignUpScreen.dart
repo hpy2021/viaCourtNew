@@ -71,8 +71,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {
           isLoading = false;
         });
-      AppConstants().showToast(msg: "${registerResponse.message}");
-    }
+      // print( "efdsdf ${registerResponse}");
+      // if(registerResponse.errors.email)
+      if(registerResponse.errors.email == null){
+        AppConstants().showToast(msg: "${registerResponse.errors.password[0]}");
+      }else {
+        AppConstants().showToast(msg: "${registerResponse.errors.email[0]}");
+      }}
     }
     else {
       if (mounted)
@@ -238,9 +243,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else if (emailController.text.trim().isEmpty) {
       AppConstants().showToast(msg: "Please enter email");
     } else if (passwordController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: "Please enter mobile number");
-    } else if (confirmPasswordController.text.trim().isEmpty) {
       AppConstants().showToast(msg: "Please enter password");
+    } else if (confirmPasswordController.text.trim().isEmpty) {
+      AppConstants().showToast(msg: "Please enter confirm password");
     }else if (confirmPasswordController.text != passwordController.text ) {
       AppConstants().showToast(msg: "Password and confirm password does not match");
     } else {

@@ -3,15 +3,18 @@ class SignUpResponse {
   User user;
   int status;
   String message;
+  Errors errors;
 
 
-  SignUpResponse({this.status, this.csrf, this.user,this.message});
+  SignUpResponse({this.status, this.csrf, this.user,this.message,this.errors});
 
   SignUpResponse.fromJson(Map<String, dynamic> json) {
     csrf = json['csrf'];
     message = json['message'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     status = json['status'];
+    errors =
+    json['errors'] != null ? new Errors.fromJson(json['errors']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +25,9 @@ class SignUpResponse {
 
     if (this.user != null) {
       data['user'] = this.user.toJson();
+    }
+    if (this.errors != null) {
+      data['errors'] = this.errors.toJson();
     }
     return data;
   }
@@ -60,6 +66,26 @@ class User {
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['id'] = this.id;
+    return data;
+  }
+}
+class Errors {
+  List<String> email;
+  List<String> password;
+
+  Errors({this.email,this.password});
+
+  Errors.fromJson(Map<String, dynamic> json) {
+    // email = json['email'].cast<String>();
+    email = json["email"] != null ? List.from(json['email']):null;
+    password = json["password"] != null ? List.from(json['password']):null;
+    // password = json['password'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    data['password'] = this.password;
     return data;
   }
 }

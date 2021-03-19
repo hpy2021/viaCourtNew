@@ -25,7 +25,7 @@ class ApiManager {
     print(uri);
     http.Response response = await http.get(uri);
     print("this is the resposne ${response.body}");
-    updateCookie(response);
+    // updateCookie(response);
     print(response.headers);
     // if (response.statusCode == 401) {
     //
@@ -69,13 +69,6 @@ class ApiManager {
     Map<String, String> header;
     header = {
       "Accept": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      // // Required for CORS support to work
-      // "Access-Control-Allow-Credentials": "true",
-      // // Required for cookies, authorization headers with HTTPS
-      // "Access-Control-Allow-Headers":
-      //     "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-      // "Access-Control-Allow-Methods": "POST, OPTIONS"
     };
     // }
     var uri = Uri.parse(url);
@@ -95,23 +88,23 @@ class ApiManager {
 
   postCallWithHeader(String url, Map request, BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(url);
+    // print(url);
 
     var headers;
     if (prefs.getString(AppStrings.TOKEN_KEY) == null) {
       headers = {"Accept": "application/json"};
     } else {
       String user = prefs.getString(AppStrings.TOKEN_KEY);
-      print(user);
+      print(user.split("|")[1]);
       //
       print("request " + request.toString());
       headers = {
         "Accept": "application/json",
-        "Authorization": "Bearer $user",
+        "Authorization": "Bearer ${user.split("|")[1]}",
       };
     }
-    var uri = Uri.parse(url);
-    uri = uri.replace(queryParameters: request);
+    Uri uri = Uri.parse(url);
+    // uri = uri.replace(queryParameters: request);
     print(uri);
 
     http.Response response =
@@ -123,14 +116,14 @@ class ApiManager {
     }
   }
 
-  void updateCookie(http.Response response) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String rawCookie = response.headers['set-cookie'];
-    prefs.setString(AppStrings.COOCKIE, rawCookie);
-    if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
-      headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
-    }
-  }
+  // void updateCookie(http.Response response) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String rawCookie = response.headers['set-cookie'];
+  //   prefs.setString(AppStrings.COOCKIE, rawCookie);
+  //   if (rawCookie != null) {
+  //     int index = rawCookie.indexOf(';');
+  //     headers['cookie'] =
+  //         (index == -1) ? rawCookie : rawCookie.substring(0, index);
+  //   }
+  // }
 }

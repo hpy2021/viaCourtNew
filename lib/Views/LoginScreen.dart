@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             isLoading = false;
           });
-        AppConstants().showToast(msg: registerResponse.errors.email[1]);
+        AppConstants().showToast(msg: registerResponse.errors.email[0]);
 
       }
     }
@@ -244,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (emailController.text.trim().isEmpty) {
       AppConstants().showToast(msg: "Please enter email");
     } else if (passwordController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: "Please enter mobile number");
+      AppConstants().showToast(msg: "Please enter password");
     } else {
       loginApiCall(
         email: emailController.text,

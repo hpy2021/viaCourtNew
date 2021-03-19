@@ -10,6 +10,8 @@ class LoginResponse {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     status = json['status'];
     token = json['token'];
+    errors =
+    json['errors'] != null ? new Errors.fromJson(json['errors']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,9 @@ class LoginResponse {
     }
     data['status'] = this.status;
     data['token'] = this.token;
+    if (this.errors != null) {
+      data['errors'] = this.errors.toJson();
+    }
     return data;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -119,22 +121,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           isLoading = true;
         });
-      var request;
+      Map<String,Object> request = new HashMap();
+      print("222");
       CommonResponse registerResponse = CommonResponse.fromJson(
         await ApiManager().postCallWithHeader(AppStrings.LOGOUT_URL,request,context),
       );
+      print("223");
+      if (mounted)
+        setState(() {
+          isLoading = false;
+        });
 
       if (registerResponse.status == 204) {
         if (mounted)
           setState(() {
             isLoading = false;
           });
+        print("224");
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.clear();
         // print(registerResponse.firstname);
         // user = registerResponse;
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
         setState(() {});
         AppConstants().showToast(msg: "Logout");
       } else {
+        print("225");
+
         if (mounted)
           setState(() {
             isLoading = false;
@@ -150,6 +164,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       AppConstants().showToast(msg:"Internet is not available");
     }
   }
+
+
 
   _buildBody(context) {
     return Container(
@@ -265,15 +281,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _textIconWidget(
             text: "Logout",
             url: "assets/images/signout.png",
-            onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.clear();
-              logoutApiCall();
+            onPressed: ()async {
+              // SharedPreferences prefs = await SharedPreferences.getInstance();
+              // prefs.clear();
+              if (mounted)
+                setState(() {
+                  isLoading = true;
+                });
+              Map<String,Object> request = new HashMap();
+              print("222");
+              CommonResponse registerResponse = CommonResponse.fromJson(
+                  await ApiManager().postCallWithHeader(AppStrings.LOGOUT_URL,request,context),
+               );
+              print("221");
 
-              // Navigator.pushAndRemoveUntil(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => LoginScreen()),
-              //     (route) => false);
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.clear();
+              print("221");
+
+              print(registerResponse.result);
+
+              if (mounted)
+                setState(() {
+                  isLoading = false;
+                });
+              // print(registerResponse.firstname);
+              // user = registerResponse;
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+              AppConstants().showToast(msg: "Logout");
             }),
       ],
     );
