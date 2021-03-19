@@ -6,8 +6,7 @@ class SignUpResponse {
   Errors errors;
 
 
-
-  SignUpResponse({this.status, this.csrf, this.user,this.message});
+  SignUpResponse({this.status, this.csrf, this.user,this.message,this.errors});
 
   SignUpResponse.fromJson(Map<String, dynamic> json) {
     csrf = json['csrf'];
@@ -74,11 +73,13 @@ class Errors {
   List<String> email;
   List<String> password;
 
-  Errors({this.email});
+  Errors({this.email,this.password});
 
   Errors.fromJson(Map<String, dynamic> json) {
-    email = json['email'].cast<String>();
-    password = json['password'].cast<String>();
+    // email = json['email'].cast<String>();
+    email = json["email"] != null ? List.from(json['email']):null;
+    password = json["password"] != null ? List.from(json['password']):null;
+    // password = json['password'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {

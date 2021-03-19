@@ -30,7 +30,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   SharedPreferences sharedPreferences;
   final _formKey = GlobalKey<FormState>();
-
   signInApiCall(
       {String firstName,
       String lastName,
@@ -52,47 +51,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
       request["password"] = password;
       request["password_confirmation"] = confirmpassword;
       SignUpResponse registerResponse = SignUpResponse.fromJson(
-        await ApiManager()
-            .postCall(AppStrings.REGISTRATION_URL, request, context),
-      );
+          await ApiManager()
+              .postCall(AppStrings.REGISTRATION_URL, request, context));
 
       if (registerResponse.status == 201) {
-        sharedPreferences = await SharedPreferences.getInstance();
-        await sharedPreferences.setString(
-            AppStrings.TOKEN_KEY, registerResponse.csrf);
-        await sharedPreferences.setBool("isRemindme", true);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => BottomNavigationBarView()));
-        if (mounted)
-          setState(() {
-            isLoading = false;
-          });
-        // print(email + " " + password + " " + userName + " " + mobileNo);
-        AppConstants().showToast(msg: "User Created SuccessFully");
-      } else {
-        if (mounted)
-          setState(() {
-            isLoading = false;
-          });
-        // if(registerResponse.errors.email == null ){
-        //   // AppConstants().showToast(msg: "${registerResponse.errors.email[0]}");
-        //
-        // }
-        AppConstants().showToast(msg: "${registerResponse.errors.email[0]}");
-      }
+      sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString(
+          AppStrings.TOKEN_KEY, registerResponse.csrf);
+      await sharedPreferences.setBool("isRemindme", true);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomNavigationBarView()));
+      if (mounted)
+        setState(() {
+          isLoading = false;
+        });
+      // print(email + " " + password + " " + userName + " " + mobileNo);
+      AppConstants().showToast(msg: "User Created SuccessFully");
     } else {
       if (mounted)
-        setState(
-          () {
-            isLoading = false;
-          },
-        );
+        setState(() {
+          isLoading = false;
+        });
+      // print( "efdsdf ${registerResponse}");
+      // if(registerResponse.errors.email)
+      if(registerResponse.errors.email == null){
+        AppConstants().showToast(msg: "${registerResponse.errors.password[0]}");
+      }else {
+        AppConstants().showToast(msg: "${registerResponse.errors.email[0]}");
+      }}
+    }
+    else {
+      if (mounted)
+        setState(() {
+          isLoading = false;
+        });
       AppConstants().showToast(msg: "No internet connection");
+
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         GestureDetector(
@@ -114,6 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
+
             decoration: BoxDecoration(gradient: AppColors().gradient()),
             width: double.infinity,
             child: Form(
@@ -189,14 +189,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       child: RichText(
         text: TextSpan(
-          text: AppStrings.haveaccountUpText,
-          style: TextStyle(fontSize: 16, color: AppColors.purpleText_color),
-          children: [
-            TextSpan(
-                text: AppStrings.signInText,
-                style: AppTextStyles.signUpTextStyle)
-          ],
-        ),
+            text: AppStrings.haveaccountUpText,
+            style: TextStyle(fontSize: 16, color: AppColors.purpleText_color),
+            children: [
+              TextSpan(
+                  text: AppStrings.signInText,
+                  style: AppTextStyles.signUpTextStyle)
+            ]),
       ),
     );
   }
@@ -210,7 +209,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _closeButton() {
     return InkWell(
-      onTap: () => Navigator.pop(context),
+      onTap: ()=>Navigator.pop(context),
+
       child: Container(
         margin: EdgeInsets.fromLTRB(0, 56, 17, 0),
         height: 30,
@@ -243,17 +243,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else if (emailController.text.trim().isEmpty) {
       AppConstants().showToast(msg: "Please enter email");
     } else if (passwordController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: "Please enter mobile number");
-    } else if (confirmPasswordController.text.trim().isEmpty) {
       AppConstants().showToast(msg: "Please enter password");
-    } else if (confirmPasswordController.text != passwordController.text) {
-      AppConstants()
-          .showToast(msg: "Password and confirm password does not match");
+    } else if (confirmPasswordController.text.trim().isEmpty) {
+      AppConstants().showToast(msg: "Please enter confirm password");
+    }else if (confirmPasswordController.text != passwordController.text ) {
+      AppConstants().showToast(msg: "Password and confirm password does not match");
     } else {
       signInApiCall(
           email: emailController.text,
           firstName: firstNameController.text,
           lastName: lastNameController.text,
+          // mobileNo: phoneController.text,
           password: passwordController.text,
           confirmpassword: confirmPasswordController.text);
     }
