@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:io';
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 
@@ -117,7 +118,7 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
           SizedBox(
             height: 46,
           ),
-          _header2(),
+          _header(),
           SizedBox(
             height: 3,
           ),
@@ -125,32 +126,6 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
               height: 13
           ),
           Expanded(child: _courtListView())
-        ],
-      ),
-    );
-  }
-
-  _header() {
-    return Container(
-      padding: EdgeInsets.only(left: 13, right: 20),
-      child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-          SizedBox(width: 15),
-          Text(
-            AppStrings.selectCourttextSize,
-            style: AppTextStyles.textStyle25white,
-          ),
         ],
       ),
     );
@@ -213,7 +188,7 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
 //                         height: 100,
 //                         width: 100,
 //                         fit: BoxFit.cover,
-//                         imageUrl: AppStrings.IMGBASE_URL + courtList.pitchImage,
+//                         imageUrl: AppStrissngs.IMGBASE_URL + courtList.pitchImage,
 //                         progressIndicatorBuilder:
 //                             (context, url, downloadProgress) =>
 //                                 Padding(
@@ -240,7 +215,7 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
 //                       //   errorWidget: (context, url, error) => Icon(Icons.error),
 //                       // ),
 //                       // child: Image.network(
-//                       //   "${AppStrings.IMGBASE_URL + courtList.pitchImage}",
+//                       //   "${AppStringss.IMGBASE_URL + courtList.pitchImage}",
 //                       //   height: 100,
 //                       //   width: 100,
 //                       //   fit: BoxFit.cover,
@@ -366,7 +341,7 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
     );
   }
 
-  _header2() {
+  _header() {
     return Container(
       padding: EdgeInsets.only(left: 13, right: 20),
       child: Column(
@@ -376,7 +351,7 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppStrings.selectCourttextSize,
+                tr("selectCourttextSize"),
                 style: AppTextStyles.textStyle25white,
               ),
               Stack(
@@ -402,7 +377,7 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
             ],
           ),
           Text(
-            AppStrings.listofCourttextsize,
+            tr("listofCourttextsize"),
             style: TextStyle(color:Colors.white70,fontSize: 18),
           ),
         ],

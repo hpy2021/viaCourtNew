@@ -221,7 +221,7 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
             height: 16,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 0.0, right: 16),
+            padding: const EdgeInsets.only(left: 0.0, right: 0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -517,7 +517,7 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
             isLoading = false;
           });
 
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => ProductScreen(
@@ -526,12 +526,12 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
               userId: int.parse(response.booking.usersId),
               pitchId: response.booking.pitchId,
             ),
-          ),
+          ), (route) => false
         );
         AppConstants().showToast(msg: response.message);
       } else {
         AppConstants().showToast(
-            msg: "This slot is alreay taken please select another slot");
+            msg: "This slot is already taken please select another slot");
         if (mounted)
           setState(() {
             isLoading = false;

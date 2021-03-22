@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_app/Views/ForgotPassword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/Constants/AppColors.dart';
 import 'package:my_app/Constants/AppConstants.dart';
@@ -28,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isSwitchedOn = false;
   bool isLoading = false;
   SharedPreferences sharedPreferences;
+  final _formKey = GlobalKey<FormState>();
 
   loginApiCall({
     String email,
@@ -46,17 +50,15 @@ class _LoginScreenState extends State<LoginScreen> {
       LoginResponse registerResponse = LoginResponse.fromJson(
           await ApiManager().postCall(AppStrings.LOGIN_URL, request, context));
 
-
-
       if (registerResponse.status == 200) {
         print("token : ${registerResponse.token}");
 
-          sharedPreferences = await SharedPreferences.getInstance();
-          await sharedPreferences.setString(
-              AppStrings.TOKEN_KEY, registerResponse.token);
-         await sharedPreferences.setBool("isRemindme", isSwitchedOn);
+        sharedPreferences = await SharedPreferences.getInstance();
+        await sharedPreferences.setString(
+            AppStrings.TOKEN_KEY, registerResponse.token);
+        await sharedPreferences.setBool("isRemindme", isSwitchedOn);
 
-          Navigator.pushReplacement(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => BottomNavigationBarView(),
@@ -73,25 +75,37 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoading = false;
           });
         AppConstants().showToast(msg: registerResponse.errors.email[0]);
+        // emailController.clear();
+        // passwordController.clear();
 
       }
-    }
-    else {
+    } else {
       if (mounted)
         setState(() {
           isLoading = false;
         });
-      AppConstants().showToast(msg:"Internet is not available");
+      AppConstants().showToast(msg: "Internet is not available");
     }
+  }
+
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
   }
   @override
   Widget build(BuildContext context) {
+    final String defaultLocale = Platform.localeName;
+    print("$defaultLocale");
     return Stack(
       children: [
         GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-          child:  AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.dark,
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle.dark,
             child: Scaffold(
               backgroundColor: Colors.white,
               body: _body(),
@@ -112,38 +126,53 @@ class _LoginScreenState extends State<LoginScreen> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(gradient: AppColors().gradient()),
             width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  height: 89,
-                ),
-                _signInText(),
-                SizedBox(height: 31),
-                CustomTextFormField(
-                  controller: emailController,
-                  hintText: AppStrings.emailHintText,
-                  obscureText: false,
-                ),
-                SizedBox(height: 25),
-                CustomTextFormField(
-                  controller: passwordController,
-                  hintText: AppStrings.passWordHintText,
-                  obscureText: true,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                _remindMeSwitch(),
-                SizedBox(
-                  height: 25,
-                ),
-                _loginButton(),
-                SizedBox(
-                  height: 18,
-                ),
-                _bottomLineText()
-              ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 89,
+                  ),
+                  _signInText(),
+                  SizedBox(height: 31),
+                  CustomTextFormField(
+                    controller: emailController,
+                    hintText: tr("emailHintText"),
+                    obscureText: false,
+                    validator: (value) {
+                      if (!AppStrings.emailRegex.hasMatch(value)) {
+                        return tr("emailValidationText");
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 25),
+                  CustomTextFormField(
+                    controller: passwordController,
+                    hintText: tr("passWordHintText"),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return tr("passwordValidation");
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  _remindMeSwitch(),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  _loginButton(),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  _bottomLineText()
+                ],
+              ),
             ),
           ),
           // _closeButton()
@@ -178,12 +207,22 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Expanded(
               child: Text(
-            "Remind me",
+            tr("remindMeText"),
             style: AppTextStyles.smallTextStyle,
           )),
-          Text(
-            "Forget Password?",
-            style: AppTextStyles.smallTextStyleWithColor,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ForgotPassword(),
+                ),
+              );
+            },
+            child: Text(
+              tr("forgotPassText"),
+              style: AppTextStyles.smallTextStyleWithColor,
+            ),
           )
         ],
       ),
@@ -195,14 +234,18 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 22),
       child: CustomButton(
         onPressed: () {
-
-          _validationCheck();
+          if (_formKey.currentState.validate()) {
+            _validationCheck();
+          } else {
+            print('Error');
+          }
+          // _validationCheck();
           // Navigator.push(
           //   context,
           //   MaterialPageRoute(builder: (context) => BottomNavigationBarView()),
           // );
         },
-        text: AppStrings.loginButtonText,
+        text: tr("loginButtonText"),
       ),
     );
   }
@@ -215,11 +258,11 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: RichText(
         text: TextSpan(
-            text: AppStrings.DonhaveaccountUpText,
+            text: tr("DonhaveaccountUpText"),
             style: TextStyle(fontSize: 16, color: AppColors.purpleText_color),
             children: [
               TextSpan(
-                  text: AppStrings.signUpText,
+                  text: tr("signUpText"),
                   style: AppTextStyles.signUpTextStyle)
             ]),
       ),
@@ -243,9 +286,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _validationCheck() {
     if (emailController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: "Please enter email");
+      AppConstants().showToast(msg: tr("emailValidationText"));
     } else if (passwordController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: "Please enter password");
+      AppConstants().showToast(msg: tr("passwordValidation"));
     } else {
       loginApiCall(
         email: emailController.text,

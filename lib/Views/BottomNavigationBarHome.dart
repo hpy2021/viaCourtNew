@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_app/Constants/AppColors.dart';
@@ -94,7 +95,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             color: Colors.black, fontSize: 11, fontWeight: FontWeight.w500),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: AppStrings.homeText,
+            label: tr("homeText"),
             activeIcon: Image.asset(
               "assets/images/Home.png",
               width: 27,
@@ -108,7 +109,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             ),
           ),
           BottomNavigationBarItem(
-            label: AppStrings.bookingText,
+            label: tr("bookingText"),
             icon: Image.asset(
               "assets/images/ticket.png",
               width: 27,
@@ -122,7 +123,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             ),
           ),
           BottomNavigationBarItem(
-            label: AppStrings.activityText,
+            label: tr("activityText"),
             icon: Image.asset(
               "assets/images/activity.png",
               width: 27,
@@ -136,7 +137,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             ),
           ),
           BottomNavigationBarItem(
-            label: AppStrings.meText,
+            label: tr("meText"),
             icon: Image.asset(
               "assets/images/user.png",
               width: 27,

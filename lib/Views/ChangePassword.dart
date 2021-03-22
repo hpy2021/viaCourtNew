@@ -45,42 +45,14 @@ class _ChangePasswordState extends State<ChangePassword> {
           SizedBox(
             height: 13,
           ),
-          Flexible(child: mainBody2())
+          Flexible(child: mainBody())
         ],
       ),
     );
   }
 
-  mainBody() {
-    return BackgroundCurvedView(
-      widget: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextFormField(
-                controller: currentPasswordController,
-                hintText: AppStrings.currentPassText,
-                obscureText: false,
-              ),
-              SizedBox(height: 20.0),
-              CustomTextFormField(
-                controller: newPasscontroller,
-                hintText: AppStrings.newPassText,
-                obscureText: false,
-              ),
-              Expanded(child: SizedBox()),
-              _bottomButtom()
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
-  mainBody2() {
+  mainBody() {
     return BackgroundCurvedView(
       widget: Container(
         child: Padding(

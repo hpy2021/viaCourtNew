@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/Constants/AppTextStyles.dart';
@@ -40,7 +41,7 @@ class _BookingScreenState extends State<BookingScreen>
 
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(AppStrings.bookingText,style: AppTextStyles.textStyle25white,),
+          title: Text(tr("bookingText"),style: AppTextStyles.textStyle25white,),
           centerTitle: false,
 
           backgroundColor: Colors.transparent,
@@ -61,13 +62,13 @@ class _BookingScreenState extends State<BookingScreen>
             tabs: <Widget>[
               Container(
                 child: Text(
-                  "Recent",
+                 tr("recentText"),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
               ),
               Container(
                 child: Text(
-                  "History",
+                  tr("historyText"),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
               ),

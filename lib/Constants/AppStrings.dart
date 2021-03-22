@@ -1,6 +1,13 @@
 class AppStrings {
-  static const String BASE_URL = "https://viacourts.indapoint.in/";
+  static  RegExp emailRegex = new RegExp(
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
 
+  // http://4b57e37263e5.ngrok.io
+  // static const String BASE_URL = "http://4b57e37263e5.ngrok.io/";
+  // static const String IMGBASE_URL = "http://4b57e37263e5.ngrok.io/";
+
+
+  static const String BASE_URL = "https://viacourts.indapoint.in/";
   static const String IMGBASE_URL = "https://viacourts.indapoint.in/";
   static const String COURT_URL = BASE_URL + "api/pitch/getCourts";
   static const String COOCKIE = "COOKIE";
@@ -19,6 +26,12 @@ class AppStrings {
   static const String LOGOUT_URL = BASE_URL + "logout";
   static const String CART_URL = BASE_URL + "api/cart";
   static const String DECREMENT_URL = BASE_URL + "api/cartDecrement";
+
+
+
+
+
+
   static const String emailHintText = "Enter Your Email or Phone";
   static const String passWordHintText = "Password";
   static const String remindMeText = "Remind me";
@@ -35,8 +48,8 @@ class AppStrings {
   static const String createPasswordText = "Create Password";
   static const String confirmPasswordText = "Confirm Password";
   static const String selectCourttext = "Select Court";
-  static const String selectCourttextSize = "Select Court Size";
-  static const String listofCourttextsize = "List of court Size";
+  static const String selectCourttextSize = "Select Pitch Size";
+  static const String listofCourttextsize = "List of pitch size";
   static const String listofCourttext = "List of court";
   static const String widthText = "Width";
   static const String pitchNameText = "Pitch Name";
@@ -67,4 +80,9 @@ class AppStrings {
 
   static const String currentPassText = "Current Password";
   static const String newPassText = "New Password";
+  static const String privacyPolicyText = "Privacy Policy";
+
+  static const String termsandconditionText = "Terms & Condition";
+
+
 }

@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -194,7 +195,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
           SizedBox(
             height: 46,
           ),
-          AppConstants().header(text: AppStrings.selectSlot, context: context),
+          AppConstants().header(text:tr("selectSlot"), context: context),
           SizedBox(
             height: 13,
           ),
@@ -429,9 +430,9 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
             } else if (result == null) {
               AppConstants().showToast(
                   msg:
-                      "The slot you are selecting has passed so try to select another slot.");
+                      tr("selectedSlottimeValidationpassed"));
             } else if (result == "not available") {
-              AppConstants().showToast(msg: "This slot is not available.");
+              AppConstants().showToast(msg: tr("notAvailableText"));
             }
           }
         },
@@ -476,7 +477,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
             // );
             print(dateTime);
             if (dateTime == null || dateTime == "") {
-              AppConstants().showToast(msg: "Please select the slot");
+              AppConstants().showToast(msg: tr("selectSlotValidation"));
             } else {
               // print(widget.selectedDate);
               Navigator.push(
@@ -510,7 +511,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
               // _bookingConfirmapi(dateTime, endTime);
             }
           },
-          text: AppStrings.bookText),
+          text: tr("bookText")),
     );
   }
 

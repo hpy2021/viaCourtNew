@@ -160,13 +160,13 @@ class _EditProfileState extends State<EditProfile> {
         SizedBox(
           height: 15,
         ),
-        _textIconWidget(text: "+166 - 12345XXXX", label: "Phone"),
-        SizedBox(
-          height: 15,
-        ),
-        Divider(
-          color: Color(0xffBAC2DA),
-        ),
+        // _textIconWidget(text: "+166 - 12345XXXX", label: "Phone"),
+        // SizedBox(
+        //   height: 15,
+        // ),
+        // Divider(
+        //   color: Color(0xffBAC2DA),
+        // ),
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,8 @@ void main() async {
         supportedLocales: [Locale('en', 'US'), Locale('ar', 'DZ')],
         path: 'assets/language', // <-- change patch to your
         fallbackLocale: Locale('en', 'US'),
+        // startLocale: Platform.localeName == "en_US"? Locale("en","US"):Locale('ar', 'DZ'),
+        startLocale: Platform.localeName == "en_US"? Locale('ar', 'DZ'):Locale('ar', 'DZ'),
         // startLocale: Locale('ar', 'DZ'),
         child: MyApp()),
   );

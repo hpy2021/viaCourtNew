@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
@@ -33,18 +34,17 @@ class _BookingHistoryState extends State<BookingHistory> {
     super.initState();
     userApiCall();
   }
+
   userApiCall() async {
     if (await ApiManager.checkInternet()) {
       if (mounted)
         setState(() {
           isLoading = true;
         });
-      user    = UserResponse.fromJson(
+      user = UserResponse.fromJson(
           await ApiManager().getCallwithheader(AppStrings.USER_URL));
 
       if (user.status == "Active") {
-
-
         if (mounted)
           setState(() {
             isLoading = false;
@@ -52,10 +52,7 @@ class _BookingHistoryState extends State<BookingHistory> {
         _getBookings();
         print(user.firstname);
         user = user;
-        if (mounted)
-          setState(() {
-
-        });
+        if (mounted) setState(() {});
       } else {
         if (mounted)
           setState(() {
@@ -63,9 +60,8 @@ class _BookingHistoryState extends State<BookingHistory> {
           });
         // AppConstants().showToast(msg: "${user.message}");
       }
-    }
-    else {
-      AppConstants().showToast(msg:"Internet is not available");
+    } else {
+      AppConstants().showToast(msg: tr("internetNotavailabletext"));
     }
   }
 
@@ -112,7 +108,16 @@ class _BookingHistoryState extends State<BookingHistory> {
   _RecentBody() {
     return BackgroundCurvedView(
       widget: bookingList == null
-          ? Container(child: Center(child: Text("No bookings found",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,),)))
+          ? Container(
+              child: Center(
+                  child: Text(
+              tr("noBookingsFound"),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            )))
           : ListView.builder(
               padding: EdgeInsets.all(15),
               physics: BouncingScrollPhysics(),

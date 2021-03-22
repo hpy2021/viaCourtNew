@@ -30,8 +30,10 @@ onTap: onTap,
 
 controller: controller,
   obscureText: obscureText,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
           hintText: hintText,
+
 
           hintStyle: AppTextStyles.hintTextStyle,
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.border_color)),

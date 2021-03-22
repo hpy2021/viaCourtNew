@@ -1,9 +1,12 @@
 import 'dart:collection';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_app/Views/ChangePassword.dart';
+import 'package:my_app/Views/terms&pp/commonFile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/Constants/AppColors.dart';
 import 'package:my_app/Constants/AppConstants.dart';
@@ -109,9 +112,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           });
         // AppConstants().showToast(msg: "${registerResponse.message}");
       }
-    }
-    else {
-      AppConstants().showToast(msg:"Internet is not available");
+    } else {
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
 
@@ -121,10 +123,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           isLoading = true;
         });
-      Map<String,Object> request = new HashMap();
+      Map<String, Object> request = new HashMap();
       print("222");
       CommonResponse registerResponse = CommonResponse.fromJson(
-        await ApiManager().postCallWithHeader(AppStrings.LOGOUT_URL,request,context),
+        await ApiManager()
+            .postCallWithHeader(AppStrings.LOGOUT_URL, request, context),
       );
       print("223");
       if (mounted)
@@ -143,7 +146,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         prefs.clear();
         // print(registerResponse.firstname);
         // user = registerResponse;
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            (route) => false);
         setState(() {});
         AppConstants().showToast(msg: "Logout");
       } else {
@@ -155,17 +161,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           });
         // AppConstants().showToast(msg: "${registerResponse.message}");
       }
-    }
-    else {
+    } else {
       if (mounted)
         setState(() {
           isLoading = false;
         });
-      AppConstants().showToast(msg:"Internet is not available");
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
-
-
 
   _buildBody(context) {
     return Container(
@@ -215,14 +218,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         child: Row(
           children: [
-            Container(
-              height: 56,
-              width: 56,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/profile.jpg"))),
-            ),
+            // Container(
+            //   height: 56,
+            //   width: 56,
+            //   decoration: BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       image: DecorationImage(
+            //           image: AssetImage("assets/images/profile.jpg"))),
+            // ),
             SizedBox(width: 16),
             Text(
               text,
@@ -242,7 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 37,
         ),
         _textIconWidget(
-            text: "My Profile",
+            text: tr("myProfileText"),
             url: "assets/images/profile.png",
             onPressed: () => Navigator.push(
                 context,
@@ -253,20 +256,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SizedBox(
           height: 34,
         ),
-        _textIconWidget(text: "Change Password", url: "assets/images/lock.png"),
+        _textIconWidget(
+            text: tr("changePasswordText"),
+            url: "assets/images/lock.png",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChangePassword(),
+                ),
+              );
+            }),
         SizedBox(
           height: 34,
         ),
-        _textIconWidget(text: "My Bookings", url: "assets/images/ticket.png"),
+        _textIconWidget(text: tr("myBookingsText"), url: "assets/images/ticket.png"),
         SizedBox(
           height: 34,
         ),
         _textIconWidget(
-            text: "Terms & Condition", url: "assets/images/doc.png"),
+          text: tr("termsandconditionText"),
+          url: "assets/images/doc.png",
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Termsandprivacy(isFromprivacypolicy: false,),
+            ),
+          ),
+        ),
         SizedBox(
           height: 34,
         ),
-        _textIconWidget(text: "Privacy Policy", url: "assets/images/pp.png"),
+        _textIconWidget(
+          text: tr("privacyPolicyText"),
+          url: "assets/images/pp.png",
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Termsandprivacy(isFromprivacypolicy: true,),
+            ),
+          ),
+        ),
         SizedBox(
           height: 34,
         ),
@@ -279,35 +309,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 32,
         ),
         _textIconWidget(
-            text: "Logout",
+            text: tr("logoutText"),
             url: "assets/images/signout.png",
-            onPressed: ()async {
+            onPressed: () async {
               // SharedPreferences prefs = await SharedPreferences.getInstance();
               // prefs.clear();
               if (mounted)
                 setState(() {
                   isLoading = true;
                 });
-              Map<String,Object> request = new HashMap();
-              print("222");
+              Map<String, Object> request = new HashMap();
               CommonResponse registerResponse = CommonResponse.fromJson(
-                  await ApiManager().postCallWithHeader(AppStrings.LOGOUT_URL,request,context),
-               );
-              print("221");
-
+                await ApiManager().postCallWithHeader(
+                    AppStrings.LOGOUT_URL, request, context),
+              );
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.clear();
-              print("221");
-
               print(registerResponse.result);
-
               if (mounted)
                 setState(() {
                   isLoading = false;
                 });
-              // print(registerResponse.firstname);
-              // user = registerResponse;
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  (route) => false);
               AppConstants().showToast(msg: "Logout");
             }),
       ],

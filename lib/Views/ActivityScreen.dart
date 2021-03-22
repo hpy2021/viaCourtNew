@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/Constants/AppColors.dart';
@@ -90,7 +91,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
             height: 46,
           ),
           AppConstants()
-              .header(text: AppStrings.activityText, context: context),
+              .header(text: tr("activityText"), context: context),
           SizedBox(
             height: 13,
           ),

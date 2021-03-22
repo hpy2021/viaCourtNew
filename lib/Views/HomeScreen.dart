@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(width: 15),
           Expanded(
             child: Text(
-              AppStrings.selectCourttext,
+              tr("selectCourttext"),
               style: AppTextStyles.textStyle25white,
             ),
           ),
@@ -303,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 16),
+                padding: const EdgeInsets.only(left: 10.0, top: 16,right: 10.0),
                 child: Text(
                   "${data.title}",
                   style: AppTextStyles.textStyle15mediumblack,
@@ -311,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 6),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
                 child: Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan justo quis mauris imperdiet.",
                   style: AppTextStyles.regular14black,
@@ -320,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 9.6),
 
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 16),
+                padding: const EdgeInsets.only(left: 10.0, right: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -341,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 9.6),
 
               Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
                 child: Row(
                   children: [
                     Icon(

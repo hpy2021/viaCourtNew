@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -45,7 +46,7 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
           SizedBox(
             height: 46,
           ),
-         header(text: AppStrings.selectdate, context: context),
+         header(text: tr("selectdate"), context: context),
           SizedBox(
             height: 13,
           ),
@@ -259,7 +260,7 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
             //   _bookingConfirmapi(dateTime, endTime);
             // }
           },
-          text: "Select"),
+          text: tr("selectText")),
     );
   }
 }

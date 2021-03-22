@@ -32,13 +32,13 @@ class AppConstants {
                   text == AppStrings.bookingText ||
                   text == AppStrings.activityText
               ? 0
-              : 13,
+              : 16,
           right: 20),
       child: Row(
         children: [
           Visibility(
             visible: text == AppStrings.confirmationText ||
-                    text == AppStrings.bookingText ||
+                    text == AppStrings.bookingText ||text== AppStrings.productsText||
                     text == AppStrings.activityText
                 ? false
                 : true,
@@ -46,10 +46,12 @@ class AppConstants {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 20,
+              child: Container(
+                child: Icon(
+                  Icons.arrow_back_ios_outlined,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
             ),
           ),
@@ -103,4 +105,4 @@ class AppConstants {
       errorBuilder: (context, url, error) => Icon(Icons.error),
     ));
   }
-}
+  }
