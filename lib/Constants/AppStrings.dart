@@ -22,10 +22,12 @@ class AppStrings {
   static const String BOOKING_CONFIRM_URL = BASE_URL + "api/createBooking";
   static const String ADD_TO_CART = BASE_URL + "api/addToCart";
   static const String BOOKING_URL = BASE_URL + "api/getBookings";
+  static const String MYBOOKING_URL = BASE_URL + "api/yourBookings";
   static const String HISTORY_BOOKING_URL = BASE_URL + "api/getBookingsHistory";
   static const String LOGOUT_URL = BASE_URL + "logout";
   static const String CART_URL = BASE_URL + "api/cart";
   static const String DECREMENT_URL = BASE_URL + "api/cartDecrement";
+  static const String CHANGEING_STATUS_URL = BASE_URL + "api/confirmBooking";
 
 
 

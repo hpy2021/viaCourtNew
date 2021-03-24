@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!sharedPreferences.getBool("isRemindme")) {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
     } else {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>BottomNavigationBarView()), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>BottomNavigationBarView(selectedIndex: 0,)), (route) => false);
 
     }}}
 

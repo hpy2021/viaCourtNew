@@ -126,11 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 3,
           ),
-          // Container(
-          //   padding: EdgeInsets.only(left: 13, right: 20),
-          //   child: Text(AppStrings.listofCourttext,
-          //       style: AppTextStyles.textStyle16),
-          // ),
           SizedBox(
             height: 13,
           ),
@@ -161,26 +156,26 @@ class _HomeScreenState extends State<HomeScreen> {
               style: AppTextStyles.textStyle25white,
             ),
           ),
-          Stack(
-            alignment: Alignment.centerRight,
-            children: [
-              Icon(
-                Icons.notifications,
-                color: Colors.white,
-                size: 30,
-              ),
-              Positioned(
-                bottom: 15,
-                right: 2,
-                child: Container(
-                  height: 11,
-                  width: 11,
-                  decoration:
-                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                ),
-              )
-            ],
-          )
+          // Stack(
+          //   alignment: Alignment.centerRight,
+          //   children: [
+          //     Icon(
+          //       Icons.notifications,
+          //       color: Colors.white,
+          //       size: 30,
+          //     ),
+          //     Positioned(
+          //       bottom: 15,
+          //       right: 2,
+          //       child: Container(
+          //         height: 11,
+          //         width: 11,
+          //         decoration:
+          //             BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+          //       ),
+          //     )
+          //   ],
+          // )
         ],
       ),
     );
@@ -265,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.contain,
                     placeholder: AssetImage("assets/images/pitchImage.png"),
 
-                    image: NetworkImage(
+                    image:data.courtImage == null ?AssetImage("assets/images/pitchImage.png"): NetworkImage(
                       "${AppStrings.IMGBASE_URL + data.courtImage}",
 
                       // loadingBuilder: (context, child, loadingProgress) =>

@@ -1,6 +1,8 @@
 import 'dart:collection';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -205,11 +207,11 @@ class _CartState extends State<Cart> {
 
   _header() {
     return Container(
-      padding: EdgeInsets.only(left: 0, right: 28),
+      padding: EdgeInsets.only(left:Platform.localeName == "en_US" ?0:16, right:Platform.localeName == "en_US" ? 28:0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppConstants().header(text: AppStrings.cartText, context: context),
+          AppConstants().header(text: tr("cartText"), context: context),
           Stack(
             alignment: Alignment.topRight,
             overflow: Overflow.visible,
@@ -308,7 +310,7 @@ class _CartState extends State<Cart> {
               children: [
                 pitchData == null
                     ? Container()
-                    : Image.network(
+                    : pitchData.pitchImage == null ? Container(): Image.network(
                         "${AppStrings.IMGBASE_URL + pitchData.pitchImage}",
                         height: 31,
                         width: 44,
@@ -462,7 +464,6 @@ class _CartState extends State<Cart> {
           Container(
             child: InkWell(
                 onTap: () {
-                  print("asdas");
                   setState(
                     () {
                       qty.qty = qty.qty + 1;
@@ -480,26 +481,6 @@ class _CartState extends State<Cart> {
       ),
     );
   }
-
-  _subTotalView() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 23),
-      child: Row(
-        children: [
-          Expanded(
-              child: Text(
-            "Sub-total",
-            style: TextStyle(fontSize: 14, color: Color(0xff666666)),
-          )),
-          Text(
-            "\$ $subTotal",
-            style: TextStyle(fontSize: 14, color: Color(0xff666666)),
-          )
-        ],
-      ),
-    );
-  }
-
   _totalView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 23),
@@ -531,9 +512,11 @@ class _CartState extends State<Cart> {
                 MaterialPageRoute(
                     builder: (context) => CheckOutPage(
                           price: "$total",
+                      bookingId: widget.bookingId,
+
                         )));
           },
-          text: AppStrings.proceedToCheckOutText),
+          text: tr("proceedToCheckOutText")),
     );
   }
 }

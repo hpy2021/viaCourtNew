@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             AppStrings.TOKEN_KEY, registerResponse.csrf);
         await sharedPreferences.setBool("isRemindme", true);
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => BottomNavigationBarView()));
+            MaterialPageRoute(builder: (context) => BottomNavigationBarView(selectedIndex: 0,)));
         if (mounted)
           setState(() {
             isLoading = false;

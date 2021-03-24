@@ -10,6 +10,9 @@ import 'package:my_app/Views/ProfileScreen.dart';
 import 'package:my_app/Views/HomeScreen.dart';
 
 class BottomNavigationBarView extends StatefulWidget {
+
+  int selectedIndex ;
+  BottomNavigationBarView({@required this.selectedIndex});
   @override
   _BottomNavigationBarViewState createState() =>
       _BottomNavigationBarViewState();
@@ -17,7 +20,7 @@ class BottomNavigationBarView extends StatefulWidget {
 
 class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
   Widget _widget = SelectCourtSize();
-  int _selectedIndex = 0;
+  int _selectedIndex =0;
 
 
 
@@ -54,6 +57,8 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _selectedIndex = widget.selectedIndex;
+    _onItemTapped(_selectedIndex);
 
   }
 

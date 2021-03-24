@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       color: AppColors.appColor_color,
       child: Text(text,style: AppTextStyles.loginButtonTextStyle,),
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 14),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
 
     );
   }

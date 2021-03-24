@@ -30,15 +30,17 @@ class AppConstants {
       padding: EdgeInsets.only(
           left: text == AppStrings.confirmationText ||
                   text == AppStrings.bookingText ||
-                  text == AppStrings.activityText
+                  text == AppStrings.activityText ||
+                  text == AppStrings.productsText
               ? 0
               : 16,
-          right: 20),
+          right: text == AppStrings.productsText ? 0 : 20),
       child: Row(
         children: [
           Visibility(
             visible: text == AppStrings.confirmationText ||
-                    text == AppStrings.bookingText ||text== AppStrings.productsText||
+                    text == AppStrings.bookingText ||
+                    text == AppStrings.productsText ||
                     text == AppStrings.activityText
                 ? false
                 : true,
@@ -105,4 +107,4 @@ class AppConstants {
       errorBuilder: (context, url, error) => Icon(Icons.error),
     ));
   }
-  }
+}

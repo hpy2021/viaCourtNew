@@ -69,5 +69,8 @@
   "selectText": "يختار",
   "selectSlotValidation": "الرجاء تحديد الفتحة",
   "selectedSlottimeValidationpassed": "لقد مرت الفتحة التي تحددها ، لذا حاول تحديد فتحة أخرى.",
-  "notAvailableText": "هذه الفتحة غير متوفرة."
+  "notAvailableText": "هذه الفتحة غير متوفرة.",
+  "reviewBookingtext": "يرجى مراجعة الحجز الخاص بك",
+  "addNewPaymentMethodText": "أضف طريقة دفع جديدة",
+  "paymentReceivedText": "تم استلام دفعتك!"
 }

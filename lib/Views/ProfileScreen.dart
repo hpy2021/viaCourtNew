@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_app/Views/ChangePassword.dart';
+import 'package:my_app/Views/MyBookings.dart';
 import 'package:my_app/Views/terms&pp/commonFile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/Constants/AppColors.dart';
@@ -124,12 +125,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           isLoading = true;
         });
       Map<String, Object> request = new HashMap();
-      print("222");
       CommonResponse registerResponse = CommonResponse.fromJson(
         await ApiManager()
             .postCallWithHeader(AppStrings.LOGOUT_URL, request, context),
       );
-      print("223");
       if (mounted)
         setState(() {
           isLoading = false;
@@ -140,12 +139,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           setState(() {
             isLoading = false;
           });
-        print("224");
-
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.clear();
-        // print(registerResponse.firstname);
-        // user = registerResponse;
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -153,7 +148,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {});
         AppConstants().showToast(msg: "Logout");
       } else {
-        print("225");
 
         if (mounted)
           setState(() {
@@ -270,7 +264,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SizedBox(
           height: 34,
         ),
-        _textIconWidget(text: tr("myBookingsText"), url: "assets/images/ticket.png"),
+        _textIconWidget(text: tr("myBookingsText"), url: "assets/images/ticket.png",  onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyBookings(),
+          ),
+        ),),
         SizedBox(
           height: 34,
         ),

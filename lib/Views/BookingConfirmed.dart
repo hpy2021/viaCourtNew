@@ -191,7 +191,7 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
             height: 46,
           ),
           AppConstants()
-              .header(text: AppStrings.reviewbookingText, context: context),
+              .header(text: tr("reviewbookingText"), context: context),
           SizedBox(
             height: 13,
           ),
@@ -354,7 +354,7 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
           ),
           SizedBox(width: 8),
           Text(
-            "Please review your booking",
+            tr("reviewBookingtext"),
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
           )
@@ -473,7 +473,7 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
               widget.bookingSlotStartTime, widget.bookingSlotEndTime);
           // availablityCheckApi();
         },
-        text: AppStrings.confirmText);
+        text: tr("confirmText"));
   }
 
   _bookingConfirmapi(String startTime, String endTime) async {
