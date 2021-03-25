@@ -155,7 +155,9 @@ class _BookingHistoryState extends State<BookingHistory> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _imageView(bookings.pitchImage),
+                  bookings.pitchImage == null
+                      ? Container()
+                      : _imageView(bookings.pitchImage),
                   SizedBox(
                     width: 10,
                   ),
