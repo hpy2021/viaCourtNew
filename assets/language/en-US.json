@@ -71,5 +71,7 @@
   "notAvailableText": "This slot is not available.",
   "reviewBookingtext": "Please review your booking",
   "addNewPaymentMethodText": "Add new payment method",
-  "paymentReceivedText": "Your Payment is Received !"
+  "paymentReceivedText": "Your Payment is Received !",
+  "updateText": "Update profile"
+
 }

@@ -231,6 +231,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future getData(Widget widget) async {
+  bool result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => widget));
+    setState(() {
+      if(result){
+
+      }
+    });
+    return Future.value(result);
+  }
+
   profileView() {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 22),
@@ -241,12 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _textIconWidget(
             text: tr("myProfileText"),
             url: "assets/images/profile.png",
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => EditProfile(
-                          user: user,
-                        )))),
+            onPressed: () => getData(EditProfile(user: user))),
         SizedBox(
           height: 34,
         ),
@@ -257,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChangePassword(),
+                  builder: (context) => ChangePassword(user:user ,),
                 ),
               );
             }),

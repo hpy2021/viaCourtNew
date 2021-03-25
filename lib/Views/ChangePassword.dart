@@ -1,19 +1,27 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/Constants/AppColors.dart';
 import 'package:my_app/Constants/AppConstants.dart';
 import 'package:my_app/Constants/AppStrings.dart';
+import 'package:my_app/Models/CommonResponse.dart';
+import 'package:my_app/Models/userResponse.dart';
+import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Widgets/custom_background_common_View.dart';
 import 'package:my_app/Widgets/custom_button.dart';
 import 'package:my_app/Widgets/custom_textFormField.dart';
 
 class ChangePassword extends StatefulWidget {
+  UserResponse user;
+  ChangePassword({@required this.user});
   @override
   _ChangePasswordState createState() => _ChangePasswordState();
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  TextEditingController currentPasswordController, newPasscontroller;
+  TextEditingController currentPasswordController, newPasscontroller,confirmPasswordController;
   final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -21,12 +29,18 @@ class _ChangePasswordState extends State<ChangePassword> {
     super.initState();
     currentPasswordController = TextEditingController();
     newPasscontroller = TextEditingController();
+    confirmPasswordController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(context),
+    return Stack(
+      children: [
+        Scaffold(
+          body: _buildBody(context),
+        ),
+        AppConstants.progress(isLoading, context)
+      ],
     );
   }
 
@@ -86,6 +100,22 @@ class _ChangePasswordState extends State<ChangePassword> {
                         obscureText:false ,
                         controller: newPasscontroller,
                       ),
+                      SizedBox(height: 20.0),
+                      CustomTextFormField(
+
+                        validator: (value) {
+                          if(value.isEmpty){
+                            return 'Please enter confrim password';
+
+                          }
+                          else if (newPasscontroller.text.trim() != value) {
+                            return 'New password and confirm password does not match';
+                          }
+                          return null;
+                        },hintText: AppStrings.confirmPasswordText,
+                        obscureText:false ,
+                        controller: confirmPasswordController,
+                      ),
                     ],
                   ),),
               Expanded(child: SizedBox()),
@@ -105,11 +135,48 @@ class _ChangePasswordState extends State<ChangePassword> {
           onPressed: () => {
             if (_formKey.currentState.validate())
               {
-                Navigator.pop(context)
+                _updateApiCall()
               }
             else
               {print('Error')}
           },
         ));
   }
+
+  _updateApiCall() async {
+    if (await ApiManager.checkInternet()) {
+      if (mounted)
+        setState(() {
+          isLoading = true;
+        });
+      Map<String,dynamic> request = new HashMap();
+      request["firstname"] = widget.user.firstname;
+      request["lastname"] = widget.user.lastname;
+      request["email"]=widget.user.email;
+      request["password"] = newPasscontroller.text;
+      request["password_confirmation"] = confirmPasswordController.text;
+      CommonResponse response = CommonResponse.fromJson(
+          await ApiManager().postCallWithHeader(AppStrings.UPDATE_PROFILE + "/${widget.user.id}",request,context));
+
+      if (response != null) {
+        if (mounted)
+          setState(() {
+            isLoading = false;
+          });
+        print(response.message);
+        Navigator.pop(context);
+        setState(() {});
+        // AppConstants().showToast(msg: "User returned SuccessFully");
+      } else {
+        if (mounted)
+          setState(() {
+            isLoading = false;
+          });
+        // AppConstants().showToast(msg: "${registerResponse.message}");
+      }
+    } else {
+      AppConstants().showToast(msg: "Internet is not available");
+    }
+  }
+
 }

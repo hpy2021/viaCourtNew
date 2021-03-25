@@ -16,8 +16,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
+
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
+
+
   );
   runApp(
     EasyLocalization(
@@ -25,9 +28,10 @@ void main() async {
         path: 'assets/language',
         // <-- change patch to your
         fallbackLocale: Locale('en', 'US'),
-        startLocale: Platform.localeName == "en_US"
+        startLocale: Platform.localeName.contains("en")
             ? Locale("en", "US")
             : Locale('ar', 'DZ'),
+        // useOnlyLangCode: true,
         // startLocale: Platform.localeName == "en_US"? Locale('ar', 'DZ'):Locale('ar', 'DZ'),
         // startLocale: Locale('ar', 'DZ'),
         child: MyApp()),
@@ -40,27 +44,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Connectivity _connectivity = new Connectivity();
-  StreamSubscription<ConnectivityResult> _connectionSubscription;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _connectionSubscription = _connectivity.onConnectivityChanged.listen(
-      (event) {
-        setState(
-          () {
-            if (event == ConnectivityResult.wifi ||
-                event == ConnectivityResult.mobile) {
-              AppConstants().showToast(msg: "Online");
-            } else {
-              AppConstants().showToast(msg: "No connection");
-            }
-          },
-        );
-      },
-    );
+
   }
 
   @override

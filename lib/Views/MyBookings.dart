@@ -279,25 +279,15 @@ class _MyBookingsState extends State<MyBookings> {
   _imageView(String url) {
     return Container(
       child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          child: Image.network(
-            "${AppStrings.IMGBASE_URL + url}",
-            height: 40,
-            width: 40,
-            fit: BoxFit.cover,
-
-            // loadingBuilder: (context, child, loadingProgress) {
-            //   print(child);
-            //   return Padding(
-            //     padding: const EdgeInsets.all(20.0),
-            //     child: SpinKitCircle(
-            //       color: AppColors.appColor_color,
-            //       size: 50,
-            //     ),
-            //   );
-            // },
-            errorBuilder: (context, url, error) => Icon(Icons.error),
-          )),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        child: Image.network(
+          "${AppStrings.IMGBASE_URL + url}",
+          height: 40,
+          width: 40,
+          fit: BoxFit.cover,
+          errorBuilder: (context, url, error) => Icon(Icons.error),
+        ),
+      ),
     );
   }
 }

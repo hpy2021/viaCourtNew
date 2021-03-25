@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/Constants/AppColors.dart';
 import 'package:my_app/Constants/AppStrings.dart';
 import 'package:my_app/Constants/AppTextStyles.dart';
@@ -89,6 +90,25 @@ class AppConstants {
         clickClose: true,
         align: Alignment(0, 0.75));
   }
+
+  showToast2({String msg,context,FToast fToast}) {
+
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+      ),
+      child: Text("$msg"),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
+
+
 
   static imageLoader(String url, String placeholder) {
     return Container(

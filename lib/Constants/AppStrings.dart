@@ -28,6 +28,7 @@ class AppStrings {
   static const String CART_URL = BASE_URL + "api/cart";
   static const String DECREMENT_URL = BASE_URL + "api/cartDecrement";
   static const String CHANGEING_STATUS_URL = BASE_URL + "api/confirmBooking";
+  static const String UPDATE_PROFILE = BASE_URL+"api/user/updateProfile";
 
 
 

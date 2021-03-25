@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -32,6 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   SharedPreferences sharedPreferences;
   final _formKey = GlobalKey<FormState>();
+
+  final Connectivity _connectivity = new Connectivity();
+  StreamSubscription<ConnectivityResult> _connectionSubscription;
+
+
 
   loginApiCall({
     String email,
@@ -93,6 +100,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _connectionSubscription = _connectivity.onConnectivityChanged.listen(
+          (event) {
+        setState(
+              () {
+            if (event == ConnectivityResult.wifi ||
+                event == ConnectivityResult.mobile) {
+              AppConstants().showToast(msg: "Online");
+            } else {
+              AppConstants().showToast(msg: "No connection");
+            }
+          },
+        );
+      },
+    );
 
 
   }
