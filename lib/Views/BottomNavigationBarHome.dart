@@ -8,10 +8,10 @@ import 'package:my_app/Views/BookingScreen.dart';
 import 'package:my_app/Views/SelectCourtSizeScreen.dart';
 import 'package:my_app/Views/ProfileScreen.dart';
 import 'package:my_app/Views/HomeScreen.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class BottomNavigationBarView extends StatefulWidget {
-
-  int selectedIndex ;
+  int selectedIndex;
   BottomNavigationBarView({@required this.selectedIndex});
   @override
   _BottomNavigationBarViewState createState() =>
@@ -20,9 +20,7 @@ class BottomNavigationBarView extends StatefulWidget {
 
 class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
   Widget _widget = SelectCourtSize();
-  int _selectedIndex =0;
-
-
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     if (mounted)
@@ -59,7 +57,6 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
     super.initState();
     _selectedIndex = widget.selectedIndex;
     _onItemTapped(_selectedIndex);
-
   }
 
   @override
@@ -100,7 +97,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             color: Colors.black, fontSize: 11, fontWeight: FontWeight.w500),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: tr("homeText"),
+            label: AppLocalizations.of(context).translate("homeText"),
             activeIcon: Image.asset(
               "assets/images/Home.png",
               width: 27,
@@ -114,7 +111,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             ),
           ),
           BottomNavigationBarItem(
-            label: tr("bookingText"),
+            label: AppLocalizations.of(context).translate("bookingText"),
             icon: Image.asset(
               "assets/images/ticket.png",
               width: 27,
@@ -128,7 +125,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             ),
           ),
           BottomNavigationBarItem(
-            label: tr("activityText"),
+            label: AppLocalizations.of(context).translate("activityText"),
             icon: Image.asset(
               "assets/images/activity.png",
               width: 27,
@@ -142,7 +139,7 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
             ),
           ),
           BottomNavigationBarItem(
-            label: tr("meText"),
+            label: AppLocalizations.of(context).translate("meText"),
             icon: Image.asset(
               "assets/images/user.png",
               width: 27,
@@ -160,5 +157,3 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
     );
   }
 }
-
-

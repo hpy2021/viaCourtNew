@@ -14,12 +14,13 @@ import '../Constants/AppTextStyles.dart';
 import '../Views/Confirmation.dart';
 import '../Widgets/custom_background_common_View.dart';
 import '../Widgets/custom_button.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class CheckOutPage extends StatefulWidget {
   String price;
   int bookingId;
 
-  CheckOutPage({this.price,this.bookingId});
+  CheckOutPage({this.price, this.bookingId});
 
   @override
   _CheckOutPageState createState() => _CheckOutPageState();
@@ -29,8 +30,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
   int _current = 0;
   List<Widget> cardList = [];
   bool isLoading = false;
-
-
 
   @override
   void initState() {
@@ -54,7 +53,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 23, top: 16,right: 23),
+          padding: EdgeInsets.only(left: 23, top: 16, right: 23),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -104,7 +103,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 23, top: 16,right: 23),
+          padding: EdgeInsets.only(left: 23, top: 16, right: 23),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -154,7 +153,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 23, top: 16,right: 23),
+          padding: EdgeInsets.only(left: 23, top: 16, right: 23),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -217,8 +216,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
           SizedBox(
             height: 46,
           ),
-          AppConstants()
-              .header(text: tr("checkOutText"), context: context),
+          AppConstants().header(
+              text: AppLocalizations.of(context).translate("checkOutText"),
+              context: context),
           SizedBox(
             height: 13,
           ),
@@ -258,7 +258,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            tr("addNewPaymentMethodText"),
+            AppLocalizations.of(context).translate("addNewPaymentMethodText"),
             style: AppTextStyles.textStyle18black,
           ),
           SizedBox(height: 28),
@@ -352,10 +352,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             price: widget.price,
                           )));
             },
-            text: tr("payText")),
+            text: AppLocalizations.of(context).translate("payText")),
       ),
     );
   }
+
   changeStatusApi() async {
     if (await ApiManager.checkInternet()) {
       if (mounted)
@@ -365,8 +366,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
       Map<String, dynamic> request = new HashMap();
 
       CommonResponse response = new CommonResponse.fromJson(
-        await ApiManager()
-            .postCallWithHeader(AppStrings.CHANGEING_STATUS_URL+ "/${widget.bookingId}", request, context),
+        await ApiManager().postCallWithHeader(
+            AppStrings.CHANGEING_STATUS_URL + "/${widget.bookingId}",
+            request,
+            context),
       );
       if (response != null) {
         if (mounted)
@@ -385,9 +388,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
         setState(() {
           isLoading = false;
         });
-    }
-    else {
-      AppConstants().showToast(msg:"Internet is not available");
+    } else {
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
 }

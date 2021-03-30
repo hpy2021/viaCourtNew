@@ -22,6 +22,7 @@ import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Views/SelectDateScreen.dart';
 import 'package:my_app/Views/SelectSlot.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_app/Constants/Applocalization.dart';
 
 class SelectCourtSize extends StatefulWidget {
   // int pitchId, locationId;
@@ -36,23 +37,23 @@ class _SelectCourtSizeState extends State<SelectCourtSize> {
   List<PitchData> pitchList = [];
   bool isLoading = false;
   final Connectivity _connectivity = new Connectivity();
-StreamSubscription<ConnectivityResult> _connectionSubscription;
+  StreamSubscription<ConnectivityResult> _connectionSubscription;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCourtSize();
-    _connectionSubscription = _connectivity.onConnectivityChanged.listen((event) {
+    _connectionSubscription =
+        _connectivity.onConnectivityChanged.listen((event) {
       setState(() {
-        if(event == ConnectivityResult.wifi||event == ConnectivityResult.mobile){
+        if (event == ConnectivityResult.wifi ||
+            event == ConnectivityResult.mobile) {
           AppConstants().showToast(msg: "Online");
-        }else {
+        } else {
           AppConstants().showToast(msg: "No connection");
-
         }
       });
     });
-
   }
 
   getCourtSize() async {
@@ -303,7 +304,7 @@ StreamSubscription<ConnectivityResult> _connectionSubscription;
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                tr("selectCourttextSize"),
+                AppLocalizations.of(context).translate("selectCourttextSize"),
                 style: AppTextStyles.textStyle25white,
               ),
               InkWell(
@@ -341,7 +342,7 @@ StreamSubscription<ConnectivityResult> _connectionSubscription;
             ],
           ),
           Text(
-            tr("listofCourttextsize"),
+            AppLocalizations.of(context).translate("listofCourttextsize"),
             style: TextStyle(color: Colors.white70, fontSize: 18),
           ),
         ],

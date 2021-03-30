@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:device_info/device_info.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_app/Models/MobileDetailResponse.dart';
 import 'package:my_app/Views/ForgotPassword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/Constants/AppColors.dart';
@@ -16,6 +18,7 @@ import 'package:my_app/Constants/AppTextStyles.dart';
 import 'package:my_app/Models/LoginResponse.dart';
 import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Views/BottomNavigationBarHome.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 import 'package:my_app/Views/SelectCourtSizeScreen.dart';
 import 'package:my_app/Views/OtpScreen.dart';
 import 'package:my_app/Views/SignUpScreen.dart';
@@ -34,11 +37,12 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   SharedPreferences sharedPreferences;
   final _formKey = GlobalKey<FormState>();
+  String fcmToken;
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  Map<String, dynamic> _deviceData = <String, dynamic>{};
 
   final Connectivity _connectivity = new Connectivity();
   StreamSubscription<ConnectivityResult> _connectionSubscription;
-
-
 
   loginApiCall({
     String email,
@@ -54,21 +58,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
       request["email"] = email;
       request["password"] = password;
-      LoginResponse registerResponse = LoginResponse.fromJson(
+      // request["device_token"] = fcmToken;
+      LoginResponse loginresponse = LoginResponse.fromJson(
           await ApiManager().postCall(AppStrings.LOGIN_URL, request, context));
 
-      if (registerResponse.status == 200) {
-        print("token : ${registerResponse.token}");
+      if (loginresponse.status == 200) {
+        print("token : ${loginresponse.token}");
 
         sharedPreferences = await SharedPreferences.getInstance();
         await sharedPreferences.setString(
-            AppStrings.TOKEN_KEY, registerResponse.token);
+            AppStrings.TOKEN_KEY, loginresponse.token);
         await sharedPreferences.setBool("isRemindme", isSwitchedOn);
+        mobileDetail(userId: loginresponse.user.id);
+        print(loginresponse.user.id);
 
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => BottomNavigationBarView(selectedIndex: 0,),
+            builder: (context) => BottomNavigationBarView(
+              selectedIndex: 0,
+            ),
           ),
         );
         if (mounted)
@@ -81,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             isLoading = false;
           });
-        AppConstants().showToast(msg: registerResponse.errors.email[0]);
+        AppConstants().showToast(msg: loginresponse.errors.email[0]);
         // emailController.clear();
         // passwordController.clear();
 
@@ -94,17 +103,123 @@ class _LoginScreenState extends State<LoginScreen> {
       AppConstants().showToast(msg: "Internet is not available");
     }
   }
+  // http://127.0.0.1:8000/api/user/mobileDetails
+  mobileDetail({
+int userId
+  }) async {
+    if (await ApiManager.checkInternet()) {
+      if (mounted)
+        setState(() {
+          isLoading = true;
+        });
 
+      var request = Map<String, dynamic>();
 
-@override
+      request["device_token"] = fcmToken;
+      request["device_manufacture"] = _deviceData["manufacturer"];
+request["device_model"] = _deviceData["model"];
+request["plateform"] = Platform.isAndroid ? "an" : "ios";
+request["users_id"] = "$userId";
+      MobileDetailResponse loginresponse = MobileDetailResponse.fromJson(
+          await ApiManager().postCall("http://167b770e8969.ngrok.io/api/user/mobileDetails", request, context));
+print(loginresponse.mobileConfiguration);
+      // if (loginresponse.status == 200) {
+      //   print("token : ${loginresponse.token}");
+      //
+      //   sharedPreferences = await SharedPreferences.getInstance();
+      //   await sharedPreferences.setString(
+      //       AppStrings.TOKEN_KEY, loginresponse.token);
+      //   await sharedPreferences.setBool("isRemindme", isSwitchedOn);
+      //
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => BottomNavigationBarView(
+      //         selectedIndex: 0,
+      //       ),
+      //     ),
+      //   );
+      //   if (mounted)
+      //     setState(() {
+      //       isLoading = false;
+      //     });
+      //   AppConstants().showToast(msg: "Successfully Logged In");
+      // } else {
+      //   if (mounted)
+      //     setState(() {
+      //       isLoading = false;
+      //     });
+    //     AppConstants().showToast(msg: loginresponse.errors.email[0]);
+    //     // emailController.clear();
+    //     // passwordController.clear();
+    //
+    //   }
+    // } else {
+    //   if (mounted)
+    //     setState(() {
+    //       isLoading = false;
+    //     });
+      AppConstants().showToast(msg: "Internet is not available");
+    }
+  }
+
+  Future<void> initPlatformState() async {
+    Map<String, dynamic> deviceData;
+
+    try {
+      if (Platform.isAndroid) {
+        deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+        print(deviceData["brand"] +
+            deviceData["device"] +
+            deviceData["manufacturer"] +
+            deviceData["product"] +
+            deviceData["model"]);
+      } else if (Platform.isIOS) {
+        deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      }
+    } on PlatformException {
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _deviceData = deviceData;
+    });
+  }
+
+  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+    return <String, dynamic>{
+      'brand': build.brand,
+      'device': build.device,
+      'manufacturer': build.manufacturer,
+      'model': build.model,
+      'product': build.product,
+    };
+  }
+
+  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo build) {
+    return <String, dynamic>{
+      'brand': build.name,
+      'device': build.systemName,
+      'model': build.model,
+      'manufacturer': build.systemName,
+      'product': build.systemVersion,
+    };
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    FcmToken();
+    initPlatformState();
     _connectionSubscription = _connectivity.onConnectivityChanged.listen(
-          (event) {
+      (event) {
         setState(
-              () {
+          () {
             if (event == ConnectivityResult.wifi ||
                 event == ConnectivityResult.mobile) {
               AppConstants().showToast(msg: "Online");
@@ -115,8 +230,11 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       },
     );
-
-
+  }
+  void FcmToken() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    fcmToken = sharedPreferences.getString(AppStrings.FCM_TOKEN);
+    print(fcmToken);
   }
   @override
   Widget build(BuildContext context) {
@@ -160,11 +278,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 31),
                   CustomTextFormField(
                     controller: emailController,
-                    hintText: tr("emailHintText"),
+                    hintText:
+                        AppLocalizations.of(context).translate("emailHintText"),
                     obscureText: false,
                     validator: (value) {
                       if (!AppStrings.emailRegex.hasMatch(value)) {
-                        return tr("emailValidationText");
+                        return AppLocalizations.of(context)
+                            .translate("emailValidationText");
                       }
                       return null;
                     },
@@ -172,11 +292,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 25),
                   CustomTextFormField(
                     controller: passwordController,
-                    hintText: tr("passWordHintText"),
+                    hintText: AppLocalizations.of(context)
+                        .translate("passWordHintText"),
                     obscureText: true,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return tr("passwordValidation");
+                        return AppLocalizations.of(context)
+                            .translate("passwordValidation");
                       }
                       return null;
                     },
@@ -205,7 +327,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _signInText() {
     return Text(
-      tr("login"),
+      AppLocalizations.of(context).translate("login"),
       style: AppTextStyles.bigTextStyle,
     );
   }
@@ -229,7 +351,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Expanded(
               child: Text(
-            tr("remindMeText"),
+            AppLocalizations.of(context).translate("remindMeText"),
             style: AppTextStyles.smallTextStyle,
           )),
           InkWell(
@@ -242,7 +364,7 @@ class _LoginScreenState extends State<LoginScreen> {
               );
             },
             child: Text(
-              tr("forgotPassText"),
+              AppLocalizations.of(context).translate("forgotPassText"),
               style: AppTextStyles.smallTextStyleWithColor,
             ),
           )
@@ -267,7 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
           //   MaterialPageRoute(builder: (context) => BottomNavigationBarView()),
           // );
         },
-        text: tr("loginButtonText"),
+        text: AppLocalizations.of(context).translate("loginButtonText"),
       ),
     );
   }
@@ -280,11 +402,12 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: RichText(
         text: TextSpan(
-            text: tr("DonhaveaccountUpText"),
+            text:
+                AppLocalizations.of(context).translate("DonhaveaccountUpText"),
             style: TextStyle(fontSize: 16, color: AppColors.purpleText_color),
             children: [
               TextSpan(
-                  text: tr("signUpText"),
+                  text: AppLocalizations.of(context).translate("signUpText"),
                   style: AppTextStyles.signUpTextStyle)
             ]),
       ),
@@ -308,9 +431,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _validationCheck() {
     if (emailController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: tr("emailValidationText"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context).translate("emailValidationText"));
     } else if (passwordController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: tr("passwordValidation"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context).translate("passwordValidation"));
     } else {
       loginApiCall(
         email: emailController.text,

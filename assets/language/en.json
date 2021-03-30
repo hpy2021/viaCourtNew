@@ -7,6 +7,7 @@
   "home": "Home",
   "emailHintText": "Enter Your Email or Phone",
   "passWordHintText": "Password",
+  "confirmPasswordText": "Confirm Password",
   "remindMeText": "Remind me",
   "forgotPassText": "Forget Password?",
   "loginButtonText": "Login",

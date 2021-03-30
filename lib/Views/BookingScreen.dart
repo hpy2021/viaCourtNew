@@ -9,6 +9,7 @@ import '../Constants/AppStrings.dart';
 import '../Models/BookingResponse.dart';
 import '../Views/BookinHistoryView.dart';
 import '../Widgets/custom_background_common_View.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class BookingScreen extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _BookingScreenState extends State<BookingScreen>
   bool isLoading = false;
   List<Bookings> bookingList = [];
   TabController _tabController;
- @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -45,29 +46,31 @@ class _BookingScreenState extends State<BookingScreen>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(tr("bookingText"),style: AppTextStyles.textStyle25white,),
+          title: Text(
+            AppLocalizations.of(context).translate("bookingText"),
+            style: AppTextStyles.textStyle25white,
+          ),
           centerTitle: false,
           backgroundColor: Colors.transparent,
           elevation: 0,
           bottom: TabBar(
-            onTap: (value){
-            },
+            onTap: (value) {},
             controller: _tabController,
             isScrollable: false,
-            indicatorColor:AppColors.home_gradient2,
-            labelPadding: EdgeInsets.only(bottom: 5,top: 5),
+            indicatorColor: AppColors.home_gradient2,
+            labelPadding: EdgeInsets.only(bottom: 5, top: 5),
             indicatorPadding: EdgeInsets.all(0.0),
             indicatorWeight: 2,
             tabs: <Widget>[
               Container(
                 child: Text(
-                 tr("recentText"),
+                  AppLocalizations.of(context).translate("recentText"),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
               ),
               Container(
                 child: Text(
-                  tr("historyText"),
+                  AppLocalizations.of(context).translate("historyText"),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
               ),
@@ -78,7 +81,14 @@ class _BookingScreenState extends State<BookingScreen>
           widget: TabBarView(
             dragStartBehavior: DragStartBehavior.down,
             controller: _tabController,
-            children: <Widget>[BookingHistory(isHistory: false,), BookingHistory(isHistory: true,)],
+            children: <Widget>[
+              BookingHistory(
+                isHistory: false,
+              ),
+              BookingHistory(
+                isHistory: true,
+              )
+            ],
           ),
         ),
       ),

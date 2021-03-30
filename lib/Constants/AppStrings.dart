@@ -6,6 +6,10 @@ class AppStrings {
   // static const String BASE_URL = "http://4b57e37263e5.ngrok.io/";
   // static const String IMGBASE_URL = "http://4b57e37263e5.ngrok.io/";
 
+  static const String LANGUAGECHANGE = "languageChange";
+  static const String NotificationStringListTitle = "NotificationStringListTitle";
+  static const String NotificationStringListbody = "NotificationStringListBody";
+  static const String FCM_TOKEN = "FCM_Token";
 
   static const String BASE_URL = "https://viacourts.indapoint.in/";
   static const String IMGBASE_URL = "https://viacourts.indapoint.in/";
@@ -29,6 +33,8 @@ class AppStrings {
   static const String DECREMENT_URL = BASE_URL + "api/cartDecrement";
   static const String CHANGEING_STATUS_URL = BASE_URL + "api/confirmBooking";
   static const String UPDATE_PROFILE = BASE_URL+"api/user/updateProfile";
+
+
 
 
 
@@ -87,5 +93,8 @@ class AppStrings {
 
   static const String termsandconditionText = "Terms & Condition";
 
+
+  static const String engLanuage = "English";
+  static const String arabicLanguage = "Arabic";
 
 }

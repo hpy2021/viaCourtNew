@@ -9,13 +9,14 @@ import 'package:my_app/Constants/AppStrings.dart';
 import 'package:my_app/Constants/AppTextStyles.dart';
 import 'package:my_app/Views/HomeScreen.dart';
 import 'package:my_app/Widgets/custom_button.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class SelectDateScreen extends StatefulWidget {
   int pitchId;
   String size;
   bool isFromPitch = false;
 
-  SelectDateScreen({this.pitchId,this.size,this.isFromPitch});
+  SelectDateScreen({this.pitchId, this.size, this.isFromPitch});
   @override
   _SelectDateScreenState createState() => _SelectDateScreenState();
 }
@@ -46,7 +47,9 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
           SizedBox(
             height: 46,
           ),
-         header(text: tr("selectdate"), context: context),
+          header(
+              text: AppLocalizations.of(context).translate("selectdate"),
+              context: context),
           SizedBox(
             height: 13,
           ),
@@ -60,8 +63,8 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
     return Container(
       padding: EdgeInsets.only(
           left: text == AppStrings.confirmationText ||
-              text == AppStrings.bookingText ||
-              text == AppStrings.activityText
+                  text == AppStrings.bookingText ||
+                  text == AppStrings.activityText
               ? 0
               : 13,
           right: 20),
@@ -69,8 +72,9 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
         children: [
           Visibility(
             visible: text == AppStrings.confirmationText ||
-                text == AppStrings.bookingText ||
-                text == AppStrings.activityText||!widget.isFromPitch
+                    text == AppStrings.bookingText ||
+                    text == AppStrings.activityText ||
+                    !widget.isFromPitch
                 ? false
                 : true,
             child: InkWell(
@@ -243,15 +247,19 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
       child: CustomButton(
           onPressed: () {
             print(requestDateFormate.format(_currentDate2));
-            if(widget.isFromPitch){
+            if (widget.isFromPitch) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(pitchId: widget.pitchId,selectedDate:_currentDate2 ,size: widget.size,),
+                  builder: (context) => HomeScreen(
+                    pitchId: widget.pitchId,
+                    selectedDate: _currentDate2,
+                    size: widget.size,
+                  ),
                 ),
               );
-            }else{
-              Navigator.pop(context,_currentDate2);
+            } else {
+              Navigator.pop(context, _currentDate2);
             }
 
             // if (dateTime.isEmpty) {
@@ -260,7 +268,7 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
             //   _bookingConfirmapi(dateTime, endTime);
             // }
           },
-          text: tr("selectText")),
+          text: AppLocalizations.of(context).translate("selectText")),
     );
   }
 }

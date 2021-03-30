@@ -13,6 +13,7 @@ import 'package:my_app/Models/userResponse.dart';
 import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Widgets/custom_background_common_View.dart';
 import 'package:my_app/Widgets/custom_button.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class EditProfile extends StatefulWidget {
   UserResponse user;
@@ -107,7 +108,7 @@ class _EditProfileState extends State<EditProfile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                onTap: () => Navigator.pop(context,false),
+                onTap: () => Navigator.pop(context, false),
                 child: Container(
                   padding: EdgeInsets.only(left: 0),
                   child: Icon(
@@ -241,7 +242,7 @@ class _EditProfileState extends State<EditProfile> {
         onPressed: () {
           _updateApiCall();
         },
-        text: tr("updateText"),
+        text: AppLocalizations.of(context).translate("updateText"),
       ),
     );
   }
@@ -252,14 +253,14 @@ class _EditProfileState extends State<EditProfile> {
         setState(() {
           isLoading = true;
         });
-      Map<String,dynamic> request = new HashMap();
+      Map<String, dynamic> request = new HashMap();
       request["firstname"] = fNameController.text;
       request["lastname"] = lNameController.text;
-      request["email"]=widget.user.email;
+      request["email"] = widget.user.email;
 
-
-      CommonResponse response = CommonResponse.fromJson(
-          await ApiManager().postCallWithHeader(AppStrings.UPDATE_PROFILE + "/${widget.user.id}",request,context));
+      CommonResponse response = CommonResponse.fromJson(await ApiManager()
+          .postCallWithHeader(AppStrings.UPDATE_PROFILE + "/${widget.user.id}",
+              request, context));
 
       if (response != null) {
         if (mounted)
@@ -267,7 +268,7 @@ class _EditProfileState extends State<EditProfile> {
             isLoading = false;
           });
         print(response.message);
-        Navigator.pop(context,true);
+        Navigator.pop(context, true);
         setState(() {});
         // AppConstants().showToast(msg: "User returned SuccessFully");
       } else {

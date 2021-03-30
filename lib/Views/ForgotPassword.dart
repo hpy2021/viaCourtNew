@@ -8,6 +8,7 @@ import 'package:my_app/Constants/AppTextStyles.dart';
 import 'package:my_app/Widgets/custom_background_common_View.dart';
 import 'package:my_app/Widgets/custom_button.dart';
 import 'package:my_app/Widgets/custom_textFormField.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -48,12 +49,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ],
     );
   }
+
   Widget body() {
     return SingleChildScrollView(
       child: Stack(
         alignment: Alignment.topRight,
         children: [
-
           Column(
             children: [
               SizedBox(
@@ -83,7 +84,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     _bottomButtom()
                   ],
                 ),
@@ -116,6 +119,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
     );
   }
+
   _closeButton() {
     return InkWell(
       onTap: () => Navigator.pop(context),
@@ -124,7 +128,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         height: 30,
         width: 30,
         decoration:
-        BoxDecoration(color: Color(0xff51526E), shape: BoxShape.circle),
+            BoxDecoration(color: Color(0xff51526E), shape: BoxShape.circle),
         child: Icon(
           Icons.clear,
           color: Colors.white,
@@ -133,6 +137,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
     );
   }
+
   mainBody() {
     return BackgroundCurvedView(
       widget: Container(
@@ -158,7 +163,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               _bottomButtom()
             ],
           ),
@@ -183,7 +190,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   _signInText() {
     return Text(
-      tr("Forgot Password"),
+      AppLocalizations.of(context).translate("Forgot Password"),
       style: AppTextStyles.bigTextStyle,
     );
   }

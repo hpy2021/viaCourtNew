@@ -19,6 +19,7 @@ import 'package:my_app/Views/BookingConfirmed.dart';
 import 'package:my_app/Views/HomeScreen.dart';
 import 'package:my_app/Views/SelectDateScreen.dart';
 import 'package:my_app/Widgets/custom_button.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class SelectTimeSlot extends StatefulWidget {
   int pitchId, price, courtId;
@@ -195,7 +196,9 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
           SizedBox(
             height: 46,
           ),
-          AppConstants().header(text:tr("selectSlot"), context: context),
+          AppConstants().header(
+              text: AppLocalizations.of(context).translate("selectSlot"),
+              context: context),
           SizedBox(
             height: 13,
           ),
@@ -429,10 +432,12 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
               setState(() {});
             } else if (result == null) {
               AppConstants().showToast(
-                  msg:
-                      tr("selectedSlottimeValidationpassed"));
+                  msg: AppLocalizations.of(context)
+                      .translate("selectedSlottimeValidationpassed"));
             } else if (result == "not available") {
-              AppConstants().showToast(msg: tr("notAvailableText"));
+              AppConstants().showToast(
+                  msg: AppLocalizations.of(context)
+                      .translate("notAvailableText"));
             }
           }
         },
@@ -477,7 +482,9 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
             // );
             print(dateTime);
             if (dateTime == null || dateTime == "") {
-              AppConstants().showToast(msg: tr("selectSlotValidation"));
+              AppConstants().showToast(
+                  msg: AppLocalizations.of(context)
+                      .translate("selectSlotValidation"));
             } else {
               // print(widget.selectedDate);
               Navigator.push(
@@ -511,7 +518,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlot> {
               // _bookingConfirmapi(dateTime, endTime);
             }
           },
-          text: tr("bookText")),
+          text: AppLocalizations.of(context).translate("bookText")),
     );
   }
 

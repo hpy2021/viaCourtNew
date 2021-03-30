@@ -12,6 +12,7 @@ import 'package:my_app/Models/BookingResponse.dart';
 import 'package:my_app/Models/userResponse.dart';
 import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Widgets/custom_background_common_View.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class BookingHistory extends StatefulWidget {
   bool isHistory = false;
@@ -61,7 +62,9 @@ class _BookingHistoryState extends State<BookingHistory> {
         // AppConstants().showToast(msg: "${user.message}");
       }
     } else {
-      AppConstants().showToast(msg: tr("internetNotavailabletext"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context)
+              .translate("internetNotavailabletext"));
     }
   }
 
@@ -111,7 +114,7 @@ class _BookingHistoryState extends State<BookingHistory> {
           ? Container(
               child: Center(
                   child: Text(
-              tr("noBookingsFound"),
+              AppLocalizations.of(context).translate("noBookingsFound"),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,

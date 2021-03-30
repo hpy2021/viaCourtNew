@@ -20,6 +20,7 @@ import 'package:my_app/Views/checkOutPage.dart';
 import 'package:my_app/Widgets/custom_background_common_View.dart';
 import 'package:my_app/Widgets/custom_button.dart';
 import 'package:my_app/Models/CartResposne.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class Cart extends StatefulWidget {
   int pitchId, bookingId, userId;
@@ -87,9 +88,8 @@ class _CartState extends State<Cart> {
         setState(() {
           isLoading = false;
         });
-    }
-    else {
-      AppConstants().showToast(msg:"Internet is not available");
+    } else {
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
 
@@ -127,9 +127,8 @@ class _CartState extends State<Cart> {
         setState(() {
           isLoading = false;
         });
-    }
-    else {
-      AppConstants().showToast(msg:"Internet is not available");
+    } else {
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
 
@@ -165,9 +164,8 @@ class _CartState extends State<Cart> {
         setState(() {
           isLoading = false;
         });
-    }
-    else {
-      AppConstants().showToast(msg:"Internet is not available");
+    } else {
+      AppConstants().showToast(msg: "Internet is not available");
     }
   }
 
@@ -207,11 +205,15 @@ class _CartState extends State<Cart> {
 
   _header() {
     return Container(
-      padding: EdgeInsets.only(left:Platform.localeName == "en_US" ?0:16, right:Platform.localeName == "en_US" ? 28:0),
+      padding: EdgeInsets.only(
+          left: Platform.localeName == "en_US" ? 0 : 16,
+          right: Platform.localeName == "en_US" ? 28 : 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppConstants().header(text: tr("cartText"), context: context),
+          AppConstants().header(
+              text: AppLocalizations.of(context).translate("cartText"),
+              context: context),
           Stack(
             alignment: Alignment.topRight,
             overflow: Overflow.visible,
@@ -310,22 +312,24 @@ class _CartState extends State<Cart> {
               children: [
                 pitchData == null
                     ? Container()
-                    : pitchData.pitchImage == null ? Container(): Image.network(
-                        "${AppStrings.IMGBASE_URL + pitchData.pitchImage}",
-                        height: 31,
-                        width: 44,
-                        fit: BoxFit.cover,
-                        // loadingBuilder: (context, child, loadingProgress) =>
-                        //     Padding(
-                        //   padding: const EdgeInsets.all(20.0),
-                        //   child: SpinKitCircle(
-                        //     color: AppColors.appColor_color,
-                        //     size: 20,
-                        //   ),
-                        // ),
-                        errorBuilder: (context, url, error) =>
-                            Icon(Icons.error),
-                      ),
+                    : pitchData.pitchImage == null
+                        ? Container()
+                        : Image.network(
+                            "${AppStrings.IMGBASE_URL + pitchData.pitchImage}",
+                            height: 31,
+                            width: 44,
+                            fit: BoxFit.cover,
+                            // loadingBuilder: (context, child, loadingProgress) =>
+                            //     Padding(
+                            //   padding: const EdgeInsets.all(20.0),
+                            //   child: SpinKitCircle(
+                            //     color: AppColors.appColor_color,
+                            //     size: 20,
+                            //   ),
+                            // ),
+                            errorBuilder: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
                 SizedBox(
                   width: 7,
                 ),
@@ -481,6 +485,7 @@ class _CartState extends State<Cart> {
       ),
     );
   }
+
   _totalView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 23),
@@ -512,11 +517,11 @@ class _CartState extends State<Cart> {
                 MaterialPageRoute(
                     builder: (context) => CheckOutPage(
                           price: "$total",
-                      bookingId: widget.bookingId,
-
+                          bookingId: widget.bookingId,
                         )));
           },
-          text: tr("proceedToCheckOutText")),
+          text:
+              AppLocalizations.of(context).translate("proceedToCheckOutText")),
     );
   }
 }

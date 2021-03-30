@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +16,7 @@ import 'package:my_app/Views/LoginScreen.dart';
 import 'package:my_app/Views/HomeScreen.dart';
 import 'package:my_app/Widgets/custom_button.dart';
 import 'package:my_app/Widgets/custom_textFormField.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -31,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   SharedPreferences sharedPreferences;
   final _formKey = GlobalKey<FormState>();
+  String fcmToken;
 
   signInApiCall(
       {String firstName,
@@ -52,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // request["mobile"] = mobileNo;
       request["password"] = password;
       request["password_confirmation"] = confirmpassword;
+      // request["device_token"] = fcmToken;
       SignUpResponse registerResponse = SignUpResponse.fromJson(
           await ApiManager()
               .postCall(AppStrings.REGISTRATION_URL, request, context));
@@ -61,8 +66,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         await sharedPreferences.setString(
             AppStrings.TOKEN_KEY, registerResponse.csrf);
         await sharedPreferences.setBool("isRemindme", true);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => BottomNavigationBarView(selectedIndex: 0,)));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BottomNavigationBarView(
+                      selectedIndex: 0,
+                    )));
         if (mounted)
           setState(() {
             isLoading = false;
@@ -90,6 +99,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
       AppConstants().showToast(msg: "No internet connection");
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FcmToken();
+
+  }
+
+  void FcmToken() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    fcmToken = sharedPreferences.getString(AppStrings.FCM_TOKEN);
+    print(fcmToken);
   }
 
   @override
@@ -134,11 +157,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 31),
                   CustomTextFormField(
                     controller: firstNameController,
-                    hintText: tr("firstNameText"),
+                    hintText:
+                        AppLocalizations.of(context).translate("firstNameText"),
                     obscureText: false,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return tr("firstNameValidationText");
+                        return AppLocalizations.of(context)
+                            .translate("firstNameValidationText");
                       }
                       return null;
                     },
@@ -146,11 +171,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 25),
                   CustomTextFormField(
                     controller: lastNameController,
-                    hintText: tr("lastNameText"),
+                    hintText:
+                        AppLocalizations.of(context).translate("lastNameText"),
                     obscureText: false,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return tr("lastNameValidationText");
+                        return AppLocalizations.of(context)
+                            .translate("lastNameValidationText");
                       }
                       return null;
                     },
@@ -158,11 +185,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 25),
                   CustomTextFormField(
                     controller: emailController,
-                    hintText: tr("emailText"),
+                    hintText:
+                        AppLocalizations.of(context).translate("emailText"),
                     obscureText: false,
                     validator: (value) {
                       if (!AppStrings.emailRegex.hasMatch(value)) {
-                        return tr('emailValidationText');
+                        return AppLocalizations.of(context)
+                            .translate('emailValidationText');
                       }
                       return null;
                     },
@@ -176,11 +205,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 25),
                   CustomTextFormField(
                     controller: passwordController,
-                    hintText: tr("createPasswordText"),
+                    hintText: AppLocalizations.of(context)
+                        .translate("createPasswordText"),
                     obscureText: true,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return tr("passwordValidation");
+                        return AppLocalizations.of(context)
+                            .translate("passwordValidation");
                       }
                       return null;
                     },
@@ -188,11 +219,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 25),
                   CustomTextFormField(
                     controller: confirmPasswordController,
-                    hintText: tr("confirmPasswordText"),
+                    hintText: AppLocalizations.of(context)
+                        .translate("confirmPasswordText"),
                     obscureText: true,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return tr("confirmPassValidationText");
+                        return AppLocalizations.of(context)
+                            .translate("confirmPassValidationText");
                       }
                       return null;
                     },
@@ -228,11 +261,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       child: RichText(
         text: TextSpan(
-            text: tr("haveaccountUpText"),
+            text: AppLocalizations.of(context).translate("haveaccountUpText"),
             style: TextStyle(fontSize: 16, color: AppColors.purpleText_color),
             children: [
               TextSpan(
-                  text: tr("signInText"),
+                  text: AppLocalizations.of(context).translate("signInText"),
                   style: AppTextStyles.signUpTextStyle)
             ]),
       ),
@@ -241,7 +274,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _signInText() {
     return Text(
-      tr("signUpText"),
+      AppLocalizations.of(context).translate("signUpText"),
       style: AppTextStyles.bigTextStyle,
     );
   }
@@ -268,7 +301,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 22),
         child: CustomButton(
-          text: tr("signUpText"),
+          text: AppLocalizations.of(context).translate("signUpText"),
           onPressed: () => {
             if (_formKey.currentState.validate())
               {_validationCheck()}
@@ -280,18 +313,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _validationCheck() {
     if (firstNameController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: tr("firstNameValidationText"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context)
+              .translate("firstNameValidationText"));
     } else if (lastNameController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: tr("lastNameValidationText"));
+      AppConstants().showToast(
+          msg:
+              AppLocalizations.of(context).translate("lastNameValidationText"));
     } else if (emailController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: tr("emailValidationText"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context).translate("emailValidationText"));
     } else if (passwordController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: tr("passwordValidation"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context).translate("passwordValidation"));
     } else if (confirmPasswordController.text.trim().isEmpty) {
-      AppConstants().showToast(msg: tr("confirmPassValidationText"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context)
+              .translate("confirmPassValidationText"));
     } else if (confirmPasswordController.text != passwordController.text) {
-      AppConstants()
-          .showToast(msg: tr("passwordMatchValidation"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context)
+              .translate("passwordMatchValidation"));
     } else {
       signInApiCall(
           email: emailController.text,

@@ -13,7 +13,8 @@ import 'package:my_app/Models/userResponse.dart';
 import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Views/ProductScreen.dart';
 import 'package:my_app/Widgets/custom_background_common_View.dart';
-import 'package:my_app/Widgets/custom_button.dart';
+import 'package:my_app/Widgets/custom_button.dart';import 'package:my_app/Constants/Applocalization.dart';
+
 
 class BookingConfirmed extends StatefulWidget {
   Booking booking;
@@ -190,8 +191,9 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
           SizedBox(
             height: 46,
           ),
-          AppConstants()
-              .header(text: tr("reviewbookingText"), context: context),
+          AppConstants().header(
+              text: AppLocalizations.of(context).translate("reviewbookingText"),
+              context: context),
           SizedBox(
             height: 13,
           ),
@@ -354,7 +356,7 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
           ),
           SizedBox(width: 8),
           Text(
-            tr("reviewBookingtext"),
+            AppLocalizations.of(context).translate("reviewBookingtext"),
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
           )
@@ -473,7 +475,7 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
               widget.bookingSlotStartTime, widget.bookingSlotEndTime);
           // availablityCheckApi();
         },
-        text: tr("confirmText"));
+        text: AppLocalizations.of(context).translate("confirmText"));
   }
 
   _bookingConfirmapi(String startTime, String endTime) async {
@@ -518,16 +520,16 @@ class _BookingConfirmedState extends State<BookingConfirmed> {
           });
 
         Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductScreen(
-              courtId: response.booking.courtsId,
-              bookingId: response.booking.id,
-              userId: int.parse(response.booking.usersId),
-              pitchId: response.booking.pitchId,
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductScreen(
+                courtId: response.booking.courtsId,
+                bookingId: response.booking.id,
+                userId: int.parse(response.booking.usersId),
+                pitchId: response.booking.pitchId,
+              ),
             ),
-          ), (route) => false
-        );
+            (route) => false);
         AppConstants().showToast(msg: response.message);
       } else {
         AppConstants().showToast(

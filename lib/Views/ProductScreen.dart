@@ -13,15 +13,16 @@ import 'package:my_app/Widgets/custom_button.dart';
 import 'dart:collection';
 import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Models/ProductResponse.dart';
-
+import 'package:my_app/Constants/Applocalization.dart';
 
 class ProductScreen extends StatefulWidget {
   int bookingId, userId, pitchId, courtId;
 
-  ProductScreen({@required this.bookingId,
-    @required this.userId,
-    @required this.courtId,
-    @required this.pitchId});
+  ProductScreen(
+      {@required this.bookingId,
+      @required this.userId,
+      @required this.courtId,
+      @required this.pitchId});
 
   @override
   _ProductScreenState createState() => _ProductScreenState();
@@ -56,8 +57,7 @@ class _ProductScreenState extends State<ProductScreen> {
       // print(response.timeslots.length);
       // api call
       ProductResponse response = new ProductResponse.fromJson(
-        await ApiManager()
-            .postCallWithHeader(
+        await ApiManager().postCallWithHeader(
             AppStrings.PRODUCT_URL + "/${widget.courtId}", request, context),
       );
       if (response != null) {
@@ -98,7 +98,8 @@ class _ProductScreenState extends State<ProductScreen> {
       request["services_id"] = "$serviceId";
       AddToCartresponse response = new AddToCartresponse.fromJson(
         await ApiManager()
-            .postCallWithHeader(AppStrings.ADD_TO_CART, request, context),);
+            .postCallWithHeader(AppStrings.ADD_TO_CART, request, context),
+      );
       // CommonResponse response = new CommonResponse.fromJson(await ApiManager()
       //     .postCallWithHeader(
       //     AppStrings.BOOKING_CONFIRM_URL,
@@ -117,7 +118,6 @@ class _ProductScreenState extends State<ProductScreen> {
             isLoading = false;
           });
         service = response.product.id;
-
 
         setState(() {});
 
@@ -236,16 +236,16 @@ class _ProductScreenState extends State<ProductScreen> {
   mainBody() {
     return BackgroundCurvedView(
         widget: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: _productGridView(),
-              )
-            ],
-          ),
-        ));
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: _productGridView(),
+          )
+        ],
+      ),
+    ));
   }
 
   _header() {
@@ -254,8 +254,9 @@ class _ProductScreenState extends State<ProductScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppConstants()
-              .header(text: tr("productsText"), context: context),
+          AppConstants().header(
+              text: AppLocalizations.of(context).translate("productsText"),
+              context: context),
           Stack(
             alignment: Alignment.topRight,
             overflow: Overflow.visible,
@@ -270,7 +271,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 0.8, horizontal: 5),
                   decoration:
-                  BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
                   child: Text(
                     "1",
                     textAlign: TextAlign.center,
@@ -289,73 +290,75 @@ class _ProductScreenState extends State<ProductScreen> {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-         products.length == 0 || products == null
-            ? Center(child: Text("No products available\nfor this court",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),))
+        products.length == 0 || products == null
+            ? Center(
+                child: Text(
+                "No products available\nfor this court",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ))
             : GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20),
-            padding: EdgeInsets.fromLTRB(17, 24, 17, 80),
-            itemCount: products.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                  decoration:
-                  BoxDecoration(color: Colors.white, boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.16),
-                        blurRadius: 9,
-                        offset: Offset(0, 0)),
-                  ]),
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: AppConstants.imageLoader(
-                            "${products[index].image}",
-                            "",
-                          ),
-                        ),
-                      ),
-                      // SizedBox(height: 14),
-                      Text(
-                        "${products[index].title}",
-                        style: AppTextStyles.textStyle12medium,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20),
+                padding: EdgeInsets.fromLTRB(17, 24, 17, 80),
+                itemCount: products.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white, boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.16),
+                            blurRadius: 9,
+                            offset: Offset(0, 0)),
+                      ]),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "\$ ${products[index].price}",
-                            style: AppTextStyles.smallTextStyleWithColor14,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: AppConstants.imageLoader(
+                                "${products[index].image}",
+                                "",
+                              ),
+                            ),
                           ),
-                          // _quantitySelector(),
+                          // SizedBox(height: 14),
+                          Text(
+                            "${products[index].title}",
+                            style: AppTextStyles.textStyle12medium,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "\$ ${products[index].price}",
+                                style: AppTextStyles.smallTextStyleWithColor14,
+                              ),
+                              // _quantitySelector(),
 
-                          products[index].qty == 0
-                              ? _addtoCartButton(
-                              text: "Add to Cart", qty: products[index])
-                              : _quantitySelector(products[index])
+                              products[index].qty == 0
+                                  ? _addtoCartButton(
+                                      text: "Add to Cart", qty: products[index])
+                                  : _quantitySelector(products[index])
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ));
-            }),
-
+                      ));
+                }),
         _bottomContinueButton()
       ],
     );
@@ -401,14 +404,13 @@ class _ProductScreenState extends State<ProductScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          Cart(
+                      builder: (context) => Cart(
                             pitchId: widget.pitchId,
                             bookingId: widget.bookingId,
                             userId: widget.userId,
                           )));
             },
-            text: tr("continueText")),
+            text: AppLocalizations.of(context).translate("continueText")),
       ),
     );
   }

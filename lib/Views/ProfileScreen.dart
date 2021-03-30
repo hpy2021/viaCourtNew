@@ -22,6 +22,7 @@ import 'package:my_app/Views/EditProfile.dart';
 import 'package:my_app/Views/LoginScreen.dart';
 import 'package:my_app/Widgets/custom_background_common_View.dart';
 import 'package:my_app/Utils/firebaseMessagingService.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -148,7 +149,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {});
         AppConstants().showToast(msg: "Logout");
       } else {
-
         if (mounted)
           setState(() {
             isLoading = false;
@@ -232,12 +232,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future getData(Widget widget) async {
-  bool result = await Navigator.push(
+    bool result = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => widget));
     setState(() {
-      if(result){
-
-      }
+      if (result) {}
     });
     return Future.value(result);
   }
@@ -250,42 +248,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 37,
         ),
         _textIconWidget(
-            text: tr("myProfileText"),
+            text: AppLocalizations.of(context).translate("myProfileText"),
             url: "assets/images/profile.png",
             onPressed: () => getData(EditProfile(user: user))),
         SizedBox(
           height: 34,
         ),
         _textIconWidget(
-            text: tr("changePasswordText"),
+            text: AppLocalizations.of(context).translate("changePasswordText"),
             url: "assets/images/lock.png",
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChangePassword(user:user ,),
+                  builder: (context) => ChangePassword(
+                    user: user,
+                  ),
                 ),
               );
             }),
         SizedBox(
           height: 34,
         ),
-        _textIconWidget(text: tr("myBookingsText"), url: "assets/images/ticket.png",  onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyBookings(),
-          ),
-        ),),
-        SizedBox(
-          height: 34,
-        ),
         _textIconWidget(
-          text: tr("termsandconditionText"),
-          url: "assets/images/doc.png",
+          text: AppLocalizations.of(context).translate("myBookingsText"),
+          url: "assets/images/ticket.png",
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Termsandprivacy(isFromprivacypolicy: false,),
+              builder: (context) => MyBookings(),
             ),
           ),
         ),
@@ -293,12 +284,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 34,
         ),
         _textIconWidget(
-          text: tr("privacyPolicyText"),
+          text: AppLocalizations.of(context).translate("termsandconditionText"),
+          url: "assets/images/doc.png",
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Termsandprivacy(
+                isFromprivacypolicy: false,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 34,
+        ),
+        _textIconWidget(
+          text: AppLocalizations.of(context).translate("privacyPolicyText"),
           url: "assets/images/pp.png",
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Termsandprivacy(isFromprivacypolicy: true,),
+              builder: (context) => Termsandprivacy(
+                isFromprivacypolicy: true,
+              ),
             ),
           ),
         ),
@@ -314,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 32,
         ),
         _textIconWidget(
-            text: tr("logoutText"),
+            text: AppLocalizations.of(context).translate("logoutText"),
             url: "assets/images/signout.png",
             onPressed: () async {
               // SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -16,6 +16,7 @@ import 'package:my_app/Utils/ApiManager.dart';
 import 'package:my_app/Views/SelectCourtSizeScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/Views/selectTimeSlot.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class HomeScreen extends StatefulWidget {
   int pitchId;
@@ -152,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(width: 15),
           Expanded(
             child: Text(
-              tr("selectCourttext"),
+              AppLocalizations.of(context).translate("selectCourttext"),
               style: AppTextStyles.textStyle25white,
             ),
           ),
@@ -260,19 +261,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.contain,
                     placeholder: AssetImage("assets/images/pitchImage.png"),
 
-                    image:data.courtImage == null ?AssetImage("assets/images/pitchImage.png"): NetworkImage(
-                      "${AppStrings.IMGBASE_URL + data.courtImage}",
+                    image: data.courtImage == null
+                        ? AssetImage("assets/images/pitchImage.png")
+                        : NetworkImage(
+                            "${AppStrings.IMGBASE_URL + data.courtImage}",
 
-                      // loadingBuilder: (context, child, loadingProgress) =>
-                      //     Padding(
-                      //   padding: const EdgeInsets.all(20.0),
-                      //   child: SpinKitCircle(
-                      //     color: AppColors.appColor_color,
-                      //     size: 20,
-                      //   ),
-                      // ),
-                      // errorBuilder: (context, url, error) => Icon(Icons.error),
-                    ),
+                            // loadingBuilder: (context, child, loadingProgress) =>
+                            //     Padding(
+                            //   padding: const EdgeInsets.all(20.0),
+                            //   child: SpinKitCircle(
+                            //     color: AppColors.appColor_color,
+                            //     size: 20,
+                            //   ),
+                            // ),
+                            // errorBuilder: (context, url, error) => Icon(Icons.error),
+                          ),
                   ),
                   // child:AppConstants.imageLoader(data.courtImage, "")
                   // CachedNetworkImage(
@@ -299,7 +302,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 16,right: 10.0),
+                padding:
+                    const EdgeInsets.only(left: 10.0, top: 16, right: 10.0),
                 child: Text(
                   "${data.title}",
                   style: AppTextStyles.textStyle15mediumblack,
@@ -307,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 6),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan justo quis mauris imperdiet.",
                   style: AppTextStyles.regular14black,
@@ -337,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 9.6),
 
               Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Row(
                   children: [
                     Icon(

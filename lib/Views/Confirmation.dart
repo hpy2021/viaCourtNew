@@ -10,6 +10,7 @@ import '../Views/BottomNavigationBarHome.dart';
 import '../Views/HomeScreen.dart';
 import '../Widgets/custom_background_common_View.dart';
 import '../Widgets/custom_button.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class ConfirmationScreen extends StatelessWidget {
   String price;
@@ -34,7 +35,9 @@ class ConfirmationScreen extends StatelessWidget {
           SizedBox(
             height: 46,
           ),
-          AppConstants().header(text: tr("confirmationText"), context: context),
+          AppConstants().header(
+              text: AppLocalizations.of(context).translate("confirmationText"),
+              context: context),
           SizedBox(
             height: 13,
           ),
@@ -68,7 +71,7 @@ class ConfirmationScreen extends StatelessWidget {
                   height: 11,
                 ),
                 Text(
-                  tr("paymentReceivedText"),
+                  AppLocalizations.of(context).translate("paymentReceivedText"),
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -125,7 +128,7 @@ class ConfirmationScreen extends StatelessWidget {
                         )),
                 (route) => false);
           },
-          text: tr("doneText"),
+          text: AppLocalizations.of(context).translate("doneText"),
         ),
       ),
     );

@@ -12,6 +12,7 @@ import '../Constants/AppConstants.dart';
 import '../Constants/AppStrings.dart';
 import '../Models/BookingResponse.dart';
 import '../Widgets/custom_background_common_View.dart';
+import 'package:my_app/Constants/Applocalization.dart';
 
 class MyBookings extends StatefulWidget {
   @override
@@ -55,7 +56,9 @@ class _MyBookingsState extends State<MyBookings> {
         // AppConstants().showToast(msg: "${user.message}");
       }
     } else {
-      AppConstants().showToast(msg: tr("internetNotavailabletext"));
+      AppConstants().showToast(
+          msg: AppLocalizations.of(context)
+              .translate("internetNotavailabletext"));
     }
   }
 
@@ -140,7 +143,7 @@ class _MyBookingsState extends State<MyBookings> {
           SizedBox(width: 15),
           Expanded(
             child: Text(
-              tr("myBookingsText"),
+              AppLocalizations.of(context).translate("myBookingsText"),
               style: AppTextStyles.textStyle25white,
             ),
           ),
@@ -155,7 +158,7 @@ class _MyBookingsState extends State<MyBookings> {
           ? Container(
               child: Center(
                   child: Text(
-              tr("noBookingsFound"),
+              AppLocalizations.of(context).translate("noBookingsFound"),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
